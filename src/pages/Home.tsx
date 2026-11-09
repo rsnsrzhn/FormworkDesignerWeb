@@ -108,6 +108,25 @@ export function Home() {
           </div>
         ))}
       </section>
+      <section
+        className="container time-saving"
+        aria-labelledby="time-saving-title"
+      >
+        <h2 id="time-saving-title">
+          <span>
+            До <strong>90%</strong>
+          </span>{' '}
+          сэкономленного времени
+        </h2>
+        <div>
+          <p>Меньше ручного подсчёта — больше времени на проект.</p>
+          <p className="time-saving-note">
+            Предварительная оценка разработчика относительно ручной работы, без
+            контрольных замеров. Результат зависит от проекта и опыта
+            специалиста.
+          </p>
+        </div>
+      </section>
       <Demo />
       <section className="container product-section" id="in-action">
         <div className="section-heading">

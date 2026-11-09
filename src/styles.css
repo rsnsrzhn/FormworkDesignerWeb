@@ -2101,3 +2101,42 @@ input[aria-invalid='true'] {
     transition: none !important;
   }
 }
+
+.time-saving {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 60px;
+  padding-block: 56px;
+  border-top: 1px solid var(--border);
+}
+.time-saving h2 {
+  font-size: clamp(26px, 3vw, 40px);
+  line-height: 1.25;
+}
+.time-saving h2 > span {
+  display: block;
+  color: var(--blue);
+}
+.time-saving strong {
+  font-size: clamp(60px, 7vw, 88px);
+  font-weight: 600;
+  letter-spacing: -0.07em;
+}
+.time-saving > div > p:first-child {
+  font-size: 18px;
+}
+.time-saving .time-saving-note {
+  margin-top: 16px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 480px;
+}
+@media (max-width: 700px) {
+  .time-saving {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding-block: 40px;
+  }
+}
