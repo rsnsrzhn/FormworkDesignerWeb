@@ -83,22 +83,18 @@ export function Contact({
           <span>ваш проект.</span>
         </h1>
         <p>
-          Расскажите о своей компании. Обсудим приобретение FormworkDesigner и
-          доработки под ваши задачи.
+          Оставьте контакты, чтобы запросить демоверсию. Обсудим приобретение
+          FormworkDesigner и доработки под ваши задачи.
         </p>
-        <div className="contact-steps">
-          <div>
-            <p>Вы оставляете контакты</p>
-          </div>
-          <div>
-            <p>Мы уточняем ваши задачи</p>
-          </div>
-          <div>
-            <p>Вместе выбираем решение</p>
-          </div>
-        </div>
-        <div className="contact-geography">
-          Работаем с компаниями России и Беларуси
+        <div className="contact-context">
+          <h2>Начнём с вашей задачи</h2>
+          <p>
+            Знакомство с программой, приобретение или доработка рабочего
+            процесса — обсудим то, что нужно вашей команде.
+          </p>
+          <Link className="text-link" href="/#in-action">
+            Посмотреть программу в работе <Icon name="arrow" size={18} />
+          </Link>
         </div>
       </div>
       <div className="form-card" id="inquiry-form">
@@ -117,8 +113,8 @@ export function Contact({
         ) : (
           <>
             <div className="form-heading">
-              <h2>Обсудить сотрудничество</h2>
-              <p>Оставьте контакты — продолжим разговор лично.</p>
+              <h2>Оставьте контакты</h2>
+              <p>Свяжемся с вами, чтобы обсудить программу и ваши вопросы.</p>
             </div>
             {!config && (
               <div className="form-notice" role="status">
@@ -126,16 +122,6 @@ export function Contact({
                 <button className="inline-button" onClick={retryConfig}>
                   Проверить снова
                 </button>
-              </div>
-            )}
-            {config && !ready && (
-              <div className="form-notice" role="status">
-                Отправка заявок пока недоступна. Пожалуйста, зайдите позже.
-              </div>
-            )}
-            {config?.development && (
-              <div className="form-notice">
-                Тестовый режим. Используйте вымышленные контактные данные.
               </div>
             )}
             <form ref={formRef} onSubmit={submit} noValidate aria-busy={busy}>

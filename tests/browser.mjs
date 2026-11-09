@@ -62,9 +62,7 @@ try {
   console.log('PASS styled first paint and bounded logo without JavaScript');
   const home = await page.goto(base);
   assert.equal(home.status(), 200);
-  await page
-    .getByRole('heading', { name: /Меньше рутины. Больше проекта/ })
-    .waitFor();
+  await page.getByRole('heading', { name: /Расчёт опалубки/ }).waitFor();
   assert.ok(
     await page.locator('meta[name="description"]').getAttribute('content'),
   );
@@ -111,12 +109,22 @@ try {
     /03-vysota/,
   );
   await page
-    .locator('.hero')
-    .getByRole('link', { name: 'Обсудить сотрудничество' })
+    .locator('.engineering-hero')
+    .getByRole('link', { name: 'Запросить демоверсию' })
     .click();
   assert.equal(new URL(page.url()).pathname, '/contact');
   console.log(
     'PASS new font, removed decorations, real video selection and cooperation CTA',
+  );
+  assert.equal(
+    await page.getByText('Тестовый режим.', { exact: false }).count(),
+    0,
+  );
+  const submitButton = page.getByRole('button', { name: 'Отправить заявку' });
+  await submitButton.hover();
+  assert.equal(
+    await submitButton.evaluate((el) => getComputedStyle(el).color),
+    'rgb(255, 255, 255)',
   );
   await page.getByRole('button', { name: 'Отправить заявку' }).click();
   assert.ok((await page.locator('[aria-invalid=true]').count()) >= 3);
@@ -176,7 +184,7 @@ try {
   console.log('PASS simulated provider failure and success UI (no email sent)');
   await page.unroute('**/api/site-config');
   await page.unroute('**/api/inquiries');
-  for (const width of [360, 390, 768, 1024, 1440]) {
+  for (const width of [360, 390, 768, 1024, 1440, 1920]) {
     await page.setViewportSize({ width, height: 900 });
     for (const path of [
       '/',

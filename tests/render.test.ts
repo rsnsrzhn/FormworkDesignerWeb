@@ -18,9 +18,9 @@ test('all routes render meaningful content without browser globals', () => {
     assert.match(html, /FormworkDesigner/);
     if (path === '/') {
       assert.match(html, /Посмотреть приложение/);
-      assert.match(html, /90%/);
-      assert.match(html, /сэкономленного времени/i);
-      assert.match(html, /Предварительная оценка разработчика/);
+      assert.doesNotMatch(html, /90%/);
+      assert.match(html, /демоверси/i);
+      assert.match(html, /экспорт файлов/);
       assert.doesNotMatch(
         html,
         /Учебная схема|status-dot|scene-check|workflow-number/,

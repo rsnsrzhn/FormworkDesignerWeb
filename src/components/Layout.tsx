@@ -112,21 +112,23 @@ export function Footer({ year = 2026 }: { year?: number }) {
 }
 export function CTA() {
   return (
-    <section className="container cta">
-      <div>
-        <h2>
-          Давайте посмотрим
-          <br />
-          на ваши задачи.
-        </h2>
-        <p>
-          Покажем возможности FormworkDesigner и обсудим функционал, который
-          нужен именно вашей компании.
-        </p>
+    <section className="cta-band">
+      <div className="container cta">
+        <div>
+          <h2>
+            Давайте посмотрим
+            <br />
+            на ваши задачи.
+          </h2>
+          <p>
+            Покажем возможности FormworkDesigner и обсудим функционал, который
+            нужен именно вашей компании.
+          </p>
+        </div>
+        <Link className="button button-light" href="/contact">
+          Обсудить сотрудничество <Icon name="arrow" />
+        </Link>
       </div>
-      <Link className="button button-light" href="/contact">
-        Обсудить сотрудничество <Icon name="arrow" />
-      </Link>
     </section>
   );
 }

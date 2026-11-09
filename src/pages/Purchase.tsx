@@ -4,86 +4,96 @@ import { CTA } from '../components/Layout';
 export function Purchase() {
   return (
     <>
-      <section className="container page-hero">
-        <span className="eyebrow">Покупка и доработка</span>
+      <section className="container page-hero purchase-hero">
         <h1>
-          Программа под задачи
+          FormworkDesigner
           <br />
-          <span>вашей компании.</span>
+          для вашей работы.
         </h1>
-        <p>
-          FormworkDesigner для десктопа и Android.
-          <br />
-          Поддержка и развитие решения для вашей команды.
-        </p>
-      </section>
-      <section className="container purchase-grid">
-        <article className="purchase-card">
-          <h2>Копия программы</h2>
+        <div>
           <p>
-            Инструмент для построения контуров, раскладки опалубки, расчёта
-            ведомостей и подготовки чертежей.
+            Приобретите программу для расчёта опалубки и подготовки чертежей.
+            Если вашему процессу нужны изменения — обсудим их отдельно.
           </p>
-          <ul className="feature-points">
-            <li>Возможности, представленные на сайте</li>
-            <li>Условия приобретения обсуждаются лично</li>
-          </ul>
-          <Link href="/contact" className="text-link">
+          <Link className="button" href="/contact">
             Обсудить приобретение <Icon name="arrow" size={18} />
           </Link>
-        </article>
-        <article className="purchase-card accent-card">
-          <h2>Поддержка и доработки</h2>
+        </div>
+      </section>
+      <section className="purchase-band">
+        <div className="container purchase-offer">
+          <div className="purchase-description">
+            <h2>
+              Приобретение
+              <br />
+              программы
+            </h2>
+            <p>
+              FormworkDesigner для работы с контурами, раскладкой щитов,
+              ведомостями и документами. Вы приобретаете программу для
+              использования в своей работе.
+            </p>
+            <p>
+              Условия использования и стоимость согласуем перед приобретением.
+            </p>
+            <Link className="text-link" href="/contact">
+              Узнать условия <Icon name="arrow" size={18} />
+            </Link>
+          </div>
+          <figure>
+            <a href="/media/02-razbivka.jpg" target="_blank" rel="noopener">
+              <img
+                src="/media/02-razbivka.jpg"
+                width="1920"
+                height="1080"
+                alt="Раскладка щитов и ведомость в FormworkDesigner"
+              />
+            </a>
+            <figcaption>
+              Настоящий интерфейс программы. Откройте изображение, чтобы
+              рассмотреть детали.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+      <section className="container purchase-tailoring">
+        <h2>
+          Нужны изменения
+          <br />
+          под ваш процесс?
+        </h2>
+        <div>
           <p>
-            После приобретения программа может развиваться вместе с вашей
-            компанией. Обсудим сопровождение, новые инструменты и изменения под
-            ваши рабочие процессы — от ведомостей до оформления документов.
+            Оформление документов, состав ведомостей или особый порядок работы —
+            расскажите, чего не хватает вашей команде.
           </p>
-          <ul className="feature-points">
-            <li>Функционал под процессы вашей компании</li>
-            <li>Состав поддержки и доработок по согласованию</li>
-          </ul>
-          <Link href="/contact" className="text-link">
+          <p>
+            Проверим возможность реализации и согласуем объём доработок,
+            стоимость и состав поддержки отдельно от приобретения программы.
+          </p>
+          <Link className="text-link" href="/contact">
             Рассказать о задачах <Icon name="arrow" size={18} />
           </Link>
-        </article>
-      </section>
-      <section className="container process">
-        <span className="eyebrow">Как начнём работу</span>
-        <h2>
-          От знакомства
-          <br />
-          до понятного предложения.
-        </h2>
-        <div className="process-grid">
-          {[
-            [
-              '01',
-              'Заявка',
-              'Оставьте контакты. Мы свяжемся с вами и уточним задачи.',
-            ],
-            [
-              '02',
-              'Обсуждение',
-              'Разберём процессы компании и необходимые возможности.',
-            ],
-            [
-              '03',
-              'Предложение',
-              'Согласуем состав решения, стоимость и условия сотрудничества.',
-            ],
-          ].map(([n, title, text]) => (
-            <article key={n}>
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </article>
-          ))}
         </div>
-        <p className="purchase-note">
-          Стоимость зависит от сложности доработок и требований компании.
-          Приобретение, состав поддержки и индивидуальные изменения обсуждаем
-          лично.
-        </p>
+      </section>
+      <section className="container purchase-start">
+        <h2>
+          Сначала — знакомство
+          <br />с программой.
+        </h2>
+        <div>
+          <p>
+            Запросите демоверсию и попробуйте рабочий сценарий. В демоверсии
+            недоступны сохранение и экспорт файлов.
+          </p>
+          <p>
+            После знакомства обсудим приобретение и ответим на вопросы об
+            использовании.
+          </p>
+          <Link className="text-link" href="/contact">
+            Запросить демоверсию <Icon name="arrow" size={18} />
+          </Link>
+        </div>
       </section>
       <CTA />
     </>

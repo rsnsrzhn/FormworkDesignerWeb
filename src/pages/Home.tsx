@@ -1,103 +1,91 @@
 import { useState } from 'react';
 import { Link } from '../components/Link';
 import { Media } from '../components/Media';
-import { CTA } from '../components/Layout';
 const demonstrations = [
   {
     name: '05-risovanie',
     title: 'Контур',
     description:
-      'Построение контура, размеры и редактирование геометрии в одном рабочем пространстве.',
+      'Постройте геометрию проекта. Задавайте размеры и редактируйте линии в рабочем поле.',
   },
   {
     name: '02-razbivka',
     title: 'Раскладка',
     description:
-      'Расстановка щитов по контуру и ведомость элементов рядом с чертежом.',
+      'Расположите щиты по контуру. Проверяйте состав и количество элементов в ведомости рядом с чертежом.',
   },
   {
     name: '03-vysota',
     title: 'Высота',
-    description: 'Изменение высоты опалубки и пересчёт состава комплекта.',
+    description:
+      'Измените высоту опалубки и проследите, как меняется состав комплекта.',
   },
   {
     name: '04-list',
     title: 'Документы',
-    description: 'Рабочий лист, памятка по монтажу и план раскроя трубок ПВХ.',
+    description:
+      'Подготовьте рабочий лист с чертежом и ведомостью, памятку и схему раскроя трубок ПВХ.',
   },
   {
     name: '01-primery',
     title: 'Примеры',
     description:
-      'Встроенный пример дома: внешний контур и внутренние помещения.',
+      'Изучите встроенный пример дома с внешним контуром и внутренними помещениями.',
   },
 ];
 export function Home() {
-  const [selected, setSelected] = useState(1);
+  const [selected, setSelected] = useState(0);
   return (
     <>
-      <section className="hero">
-        <div className="hero-drawing" aria-hidden="true" />
-        <div className="container hero-inner">
-          <div className="hero-copy">
-            <p className="hero-kicker">FormworkDesigner</p>
-            <h1>
-              Меньше рутины.
-              <br />
-              <span>Больше проекта.</span>
-            </h1>
-            <p className="hero-description">
-              Приложение для проектирования опалубки. Начертите контур, получите
-              раскладку щитов и подготовьте комплект документов.
+      <section className="engineering-hero container">
+        <div className="engineering-heading">
+          <h1>
+            Расчёт опалубки.
+            <br />
+            Чертёж. Комплект.
+          </h1>
+          <div>
+            <p>
+              От контура до ведомости элементов — в одном проекте. Рабочий
+              инструмент для проектировщиков, прорабов и строительных компаний.
             </p>
             <div className="hero-actions">
-              <a className="button" href="#in-action">
-                Посмотреть приложение
-              </a>
-              <Link className="button button-outline" href="/contact">
-                Обсудить сотрудничество
+              <Link className="button" href="/contact">
+                Запросить демоверсию
               </Link>
+              <a className="text-link" href="#in-action">
+                Посмотреть приложение <span aria-hidden="true">↓</span>
+              </a>
             </div>
-            <p className="hero-platforms">На компьютере и Android</p>
+            <p className="demo-note">
+              В демоверсии недоступны сохранение и экспорт файлов.
+            </p>
           </div>
-          <p className="drawing-caption">
-            Контур встроенного примера «Дом» · 12 × 9 м
-          </p>
         </div>
+        <figure className="hero-product">
+          <Media
+            name="02-razbivka"
+            title="Раскладка опалубки и ведомость в FormworkDesigner"
+            eager
+          />
+          <figcaption>
+            <span>FormworkDesigner · настольная версия</span>
+            <a href="/media/02-razbivka.jpg" target="_blank" rel="noopener">
+              Рассмотреть интерфейс ↗
+            </a>
+          </figcaption>
+        </figure>
       </section>
-      <section className="container product-intro" data-reveal>
-        <h2>
-          От геометрии
-          <br />
-          <span>к составу комплекта.</span>
-        </h2>
-        <div>
-          <p>
-            Чертёж и ведомость не должны жить отдельно. FormworkDesigner
-            связывает контур, раскладку и перечень элементов в одном проекте.
-          </p>
-          <p>
-            Работайте с геометрией, меняйте высоту, проверяйте количество щитов
-            и крепежа. Затем подготовьте документы для дальнейшей работы.
-          </p>
-        </div>
-      </section>
-      <section
-        className="container product-section"
-        id="in-action"
-        aria-labelledby="product-title"
-        data-reveal
-      >
-        <div className="section-heading">
-          <h2 id="product-title">
-            Посмотрите,
+      <section className="container workflow-section" id="in-action">
+        <div className="workflow-intro">
+          <h2>
+            Один проект.
             <br />
-            <span>как это работает.</span>
+            Связанные задачи.
           </h2>
           <p>
-            Реальные записи настольной версии.
-            <br />
-            От первого контура до рабочего листа.
+            Начните с геометрии. Перейдите к раскладке, проверьте ведомость и
+            подготовьте документы для дальнейшей работы.
           </p>
         </div>
         <div
@@ -121,141 +109,114 @@ export function Home() {
             key={demonstrations[selected].name}
             name={demonstrations[selected].name}
             title={demonstrations[selected].title}
-            eager
           />
           <figcaption className="preview-description" aria-live="polite">
-            {demonstrations[selected].description}
+            {demonstrations[selected].description}{' '}
+            <a
+              href={`/media/${demonstrations[selected].name}.jpg`}
+              target="_blank"
+              rel="noopener"
+            >
+              Открыть изображение ↗
+            </a>
           </figcaption>
         </figure>
       </section>
-      <section
-        className="time-saving"
-        aria-labelledby="time-saving-title"
-        data-reveal
-      >
-        <div className="container time-saving-inner">
-          <h2 id="time-saving-title">
-            До <strong>90%</strong>
-            <span>сэкономленного времени</span>
-          </h2>
+      <section className="result-band">
+        <div className="container result-grid">
           <div>
-            <p>
-              Пусть программа считает.
-              <br />А вы занимаетесь проектом.
-            </p>
-            <p className="time-saving-note">
-              Предварительная оценка разработчика относительно ручной работы,
-              без контрольных замеров. Результат зависит от проекта и опыта
-              специалиста.
-            </p>
-          </div>
-        </div>
-      </section>
-      <section
-        className="container capabilities"
-        aria-labelledby="capabilities-title"
-        data-reveal
-      >
-        <div className="section-heading">
-          <h2 id="capabilities-title">
-            Всё, что связано
-            <br />
-            <span>с вашим чертежом.</span>
-          </h2>
-          <p>
-            Отдельные рабочие задачи.
-            <br />
-            Один последовательный процесс.
-          </p>
-        </div>
-        <div className="capabilities-grid">
-          <article>
-            <p className="feature-label">Геометрия</p>
-            <h3>
-              Проект начинается
-              <br />с вашего контура.
-            </h3>
-            <p>
-              Линии, размеры, измерения и привязки. Редактируйте геометрию и
-              возвращайтесь к предыдущим действиям через историю изменений.
-            </p>
-            <dl>
-              <div>
-                <dt>Контуры</dt>
-                <dd>Внешние и внутренние</dd>
-              </div>
-              <div>
-                <dt>Проект</dt>
-                <dd>Сохранение в .fwd</dd>
-              </div>
-            </dl>
-          </article>
-          <article>
-            <p className="feature-label">Комплектование</p>
-            <h3>
-              Элементы —<br />
-              рядом со схемой.
-            </h3>
-            <p>
-              Щиты, вставки, доски, внутренние и наружные уголки. Ведомость
-              показывает типоразмеры и количество элементов, стяжек и крепежа.
-            </p>
-            <dl>
-              <div>
-                <dt>Высота</dt>
-                <dd>Пересчёт ведомости</dd>
-              </div>
-              <div>
-                <dt>Расходники</dt>
-                <dd>ПВХ, конусы, масло</dd>
-              </div>
-            </dl>
-          </article>
-          <article>
-            <p className="feature-label">Документация</p>
-            <h3>
-              Результат, который
+            <h2>
+              Чертёж и ведомость.
               <br />
-              можно передать.
-            </h3>
+              На одном листе.
+            </h2>
             <p>
-              Рабочий лист с чертежом и ведомостью, памятка по монтажу и план
-              раскроя трубок ПВХ. Подготовьте документы для команды и заказчика.
+              Схема раскладки остаётся рядом с перечнем элементов. Сопоставляйте
+              геометрию и состав комплекта перед передачей результата команде.
             </p>
-            <dl>
+            <dl className="result-list">
               <div>
-                <dt>Рабочие листы</dt>
-                <dd>PDF</dd>
+                <dt>Раскладка</dt>
+                <dd>Щиты, вставки и уголки</dd>
               </div>
               <div>
-                <dt>Чертёж</dt>
-                <dd>HTML-просмотрщик</dd>
+                <dt>Ведомость</dt>
+                <dd>Типоразмеры и количество</dd>
+              </div>
+              <div>
+                <dt>Рабочий лист</dt>
+                <dd>Чертёж и ведомость в PDF</dd>
               </div>
             </dl>
-          </article>
+          </div>
+          <figure>
+            <a href="/media/04-list.jpg" target="_blank" rel="noopener">
+              <img
+                src="/media/04-list.jpg"
+                alt="Памятка и схема раскроя ПВХ в настоящем интерфейсе FormworkDesigner"
+                width="1920"
+                height="1080"
+                loading="lazy"
+              />
+            </a>
+            <figcaption>
+              Памятка и схема раскроя ПВХ из приложения. Нажмите, чтобы
+              рассмотреть.
+            </figcaption>
+          </figure>
         </div>
       </section>
-      <section className="container company-section" data-reveal>
+      <section className="container demo-section">
         <h2>
-          Ваши процессы.
+          Сначала попробуйте
           <br />
-          <span>Ваш инструмент.</span>
+          на своей задаче.
         </h2>
         <div>
           <p>
-            У каждой компании свои задачи: состав ведомостей, оформление
-            документов, привычный порядок работы.
+            Запросите демоверсию, чтобы познакомиться с рабочим процессом до
+            обсуждения приобретения.
           </p>
           <p>
-            Обсудим приобретение FormworkDesigner и необходимые доработки.
-            Возможность реализации, состав поддержки и условия согласуем лично.
+            В демоверсии недоступны сохранение проекта и экспорт файлов. Условия
+            приобретения и возможные доработки обсуждаем лично.
           </p>
+          <Link className="button" href="/contact">
+            Запросить демоверсию
+          </Link>
           <Link className="text-link" href="/purchase">
-            О сотрудничестве <span aria-hidden="true">→</span>
+            Приобретение и доработки →
           </Link>
         </div>
       </section>
-      <CTA />
+      <section className="container landing-questions">
+        <h2>Перед началом работы</h2>
+        {[
+          [
+            'Можно ли сохранить результат в демоверсии?',
+            'Нет. Сохранение проекта и экспорт файлов в демоверсии заблокированы.',
+          ],
+          [
+            'Где посмотреть программу в работе?',
+            'На этой странице доступны реальные записи настольной версии: контур, раскладка, изменение высоты и подготовка документов.',
+          ],
+          [
+            'Как обсудить задачи компании?',
+            'Оставьте контакты через форму заявки. Обсудим приобретение и необходимые изменения под ваш процесс.',
+          ],
+        ].map(([q, a]) => (
+          <details key={q}>
+            <summary>
+              {q}
+              <span aria-hidden="true">+</span>
+            </summary>
+            <p>{a}</p>
+          </details>
+        ))}
+        <Link className="text-link" href="/contact">
+          Перейти к форме заявки →
+        </Link>
+      </section>
     </>
   );
 }
