@@ -1,0 +1,36 @@
+using FormworkDesignerWeb.Features.Inquiries;
+using FormworkDesignerWeb.Configuration;
+
+var valid = new InquiryRequest(Guid.NewGuid(), "Анна Иванова", "anna@example.org", "+375 (29) 123-45-67", true, "2026-11-03", "");
+var failures = new List<string>();
+void Check(string name, bool condition) { Console.WriteLine($"{(condition ? "PASS" : "FAIL")} {name}"); if (!condition) failures.Add(name); }
+Check("valid Belarus inquiry", InquiryValidation.Validate(valid, "2026-11-03").Count == 0);
+Check("normalizes Belarus", InquiryValidation.NormalizePhone(valid.Phone) == "+375291234567");
+Check("normalizes Russian domestic prefix", InquiryValidation.NormalizePhone("8 (916) 123-45-67") == "+79161234567");
+Check("accepts Russian phone", InquiryValidation.Validate(valid with { Phone = "+7 916 123 45 67" }, "2026-11-03").Count == 0);
+Check("rejects Kazakhstan", InquiryValidation.Validate(valid with { Phone = "+7 701 123 45 67" }, "2026-11-03").ContainsKey("phone"));
+Check("rejects unknown Belarus prefix", InquiryValidation.Validate(valid with { Phone = "+375 00 123 45 67" }, "2026-11-03").ContainsKey("phone"));
+Check("rejects letters in phone", InquiryValidation.Validate(valid with { Phone = "+37529abc1234567" }, "2026-11-03").ContainsKey("phone"));
+Check("requires consent", InquiryValidation.Validate(valid with { Consent = false }, "2026-11-03").ContainsKey("consent"));
+Check("rejects stale policy", InquiryValidation.Validate(valid with { PolicyVersion = "old" }, "2026-11-03").ContainsKey("policyVersion"));
+Check("rejects empty name", InquiryValidation.Validate(valid with { FullName = " " }, "2026-11-03").ContainsKey("fullName"));
+Check("accepts single or hyphenated name", InquiryValidation.Validate(valid with { FullName = "Анна-Мария" }, "2026-11-03").Count == 0);
+Check("rejects invalid email", InquiryValidation.Validate(valid with { Email = "no@" }, "2026-11-03").ContainsKey("email"));
+Check("requires email domain", InquiryValidation.Validate(valid with { Email = "first.last@example" }, "2026-11-03").ContainsKey("email"));
+Check("rejects empty request id", InquiryValidation.Validate(valid with { RequestId = Guid.Empty }, "2026-11-03").ContainsKey("requestId"));
+Check("rejects long values", InquiryValidation.Validate(valid with { FullName = new string('а', 201) }, "2026-11-03").ContainsKey("fullName"));
+var options = new SiteOptions { AcceptInquiries = true };
+Check("production closed without operator", !options.IsReady(false));
+Check("development can use test form", options.IsReady(true));
+options.OperatorName = "Тестовая организация";
+options.OperatorAddress = "Тестовый адрес";
+options.PrivacyEmail = "test@example.org";
+options.PublicOrigin = "https://example.org";
+Check("legal review is mandatory", !options.IsReady(false));
+options.LegalReviewed = true;
+Check("complete configuration opens production", options.IsReady(false));
+options.PublicOrigin = "http://example.org";
+Check("production requires https origin", !options.IsReady(false));
+options.AcceptInquiries = false;
+Check("disabled form stays closed in development", !options.IsReady(true));
+if (failures.Count > 0) throw new Exception(string.Join(", ", failures));

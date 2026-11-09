@@ -1,0 +1,11 @@
+{
+  "name": "formworkdesigner-workspace",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "preview": "npm run build --prefix FormworkDesignerWeb/ClientApp && npm run dev --prefix FormworkDesignerWeb/ClientApp",
+    "build": "npm run build --prefix FormworkDesignerWeb/ClientApp && dotnet build FormworkDesignerWeb",
+    "test": "npm test --prefix FormworkDesignerWeb/ClientApp && dotnet run --project tests/ValidationTests"
+  }
+}
