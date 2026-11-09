@@ -14,11 +14,6 @@ export const pages: Record<string, { title: string; description: string }> = {
     description:
       'Свяжитесь с разработчиком FormworkDesigner: демонстрация приложения, приобретение и доработка под ваши процессы.',
   },
-  '/faq': {
-    title: 'Вопросы о программе для опалубки — FormworkDesigner',
-    description:
-      'Ответы на вопросы о раскладке опалубки, ведомостях, PDF, платформах, покупке и поддержке FormworkDesigner.',
-  },
   '/privacy': {
     title: 'Политика конфиденциальности — FormworkDesigner',
     description:

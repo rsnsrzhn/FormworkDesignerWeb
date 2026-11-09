@@ -24,6 +24,10 @@ const server = createServer(async (req, res) => {
       await handleApi(req, res);
       return;
     }
+    if (url.pathname === '/faq') {
+      res.writeHead(308, { Location: '/' }).end();
+      return;
+    }
     if (!['GET', 'HEAD'].includes(req.method || 'GET')) {
       res.writeHead(405).end();
       return;
@@ -48,6 +52,14 @@ const server = createServer(async (req, res) => {
       status = 404;
     }
     const data = await readFile(file);
+    const deployment = JSON.parse(await readFile('vercel.json', 'utf8'));
+    for (const header of deployment.headers[0].headers) {
+      if (header.key !== 'Strict-Transport-Security')
+        res.setHeader(
+          header.key,
+          header.value.replace('; upgrade-insecure-requests', ''),
+        );
+    }
     res.writeHead(status, {
       'Content-Type': types[extname(file)] || 'application/octet-stream',
       'X-Content-Type-Options': 'nosniff',

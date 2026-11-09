@@ -5,7 +5,6 @@ import { Link } from './components/Link';
 import { Home } from './pages/Home';
 import { Purchase } from './pages/Purchase';
 import { Contact } from './pages/Contact';
-import { Faq } from './pages/Faq';
 import { Legal } from './pages/Legal';
 import { getSiteConfig, type SiteConfig } from './lib/api';
 export function App({
@@ -18,12 +17,13 @@ export function App({
   const [config, setConfig] = useState<SiteConfig | null>(initialConfig);
   const [attempt, setAttempt] = useState(0);
   useEffect(() => {
+    if (!['/contact', '/privacy', '/consent'].includes(path)) return;
     const controller = new AbortController();
     getSiteConfig(controller.signal)
       .then(setConfig)
       .catch(() => {});
     return () => controller.abort();
-  }, [attempt]);
+  }, [attempt, path]);
   useEffect(() => {
     const main = document.getElementById('main');
     if (main) return mountScrollMotion(main);
@@ -35,8 +35,6 @@ export function App({
       <Purchase />
     ) : path === '/contact' ? (
       <Contact config={config} retryConfig={() => setAttempt((n) => n + 1)} />
-    ) : path === '/faq' ? (
-      <Faq />
     ) : ['/privacy', '/consent'].includes(path) ? (
       <Legal config={config} consent={path === '/consent'} />
     ) : (

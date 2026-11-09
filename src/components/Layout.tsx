@@ -52,7 +52,6 @@ export function Header({ path }: { path: string }) {
             ['/', 'Возможности'],
             ['/#in-action', 'Приложение'],
             ['/purchase', 'Сотрудничество'],
-            ['/faq', 'Вопросы'],
           ].map(([href, label]) => (
             <Link
               key={href}
@@ -91,7 +90,6 @@ export function Footer({ year = 2026 }: { year?: number }) {
           <div className="footer-links">
             <Link href="/purchase">Сотрудничество</Link>
             <Link href="/contact">Связаться с нами</Link>
-            <Link href="/faq">Частые вопросы</Link>
           </div>
           <div className="footer-location">
             Для специалистов

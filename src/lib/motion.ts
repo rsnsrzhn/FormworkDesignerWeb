@@ -11,10 +11,10 @@ export function mountScrollMotion(root: HTMLElement) {
         if (preference.matches) continue;
         const animation = entry.target.animate(
           [
-            { opacity: 0.55, transform: 'translateY(18px)' },
+            { opacity: 0.35, transform: 'translateY(16px)' },
             { opacity: 1, transform: 'translateY(0)' },
           ],
-          { duration: 620, easing: 'cubic-bezier(.2,.75,.2,1)' },
+          { duration: 540, easing: 'cubic-bezier(.2,.75,.2,1)' },
         );
         animations.add(animation);
         animation.finished
@@ -24,8 +24,10 @@ export function mountScrollMotion(root: HTMLElement) {
     },
     { threshold: 0.08 },
   );
-  for (const element of root.querySelectorAll('[data-reveal]')) {
-    if (element.getBoundingClientRect().top >= innerHeight)
+  for (const element of root.querySelectorAll(
+    'section > .container, main > section, .engineering-heading > *, .contact-intro, .form-card, .legal-page > h2',
+  )) {
+    if (element.getBoundingClientRect().top >= innerHeight * 0.85)
       observer.observe(element);
   }
   const stop = () => {

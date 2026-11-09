@@ -32,3 +32,13 @@ opalubka-roliki-2026-11-02/
 videos/
 # Curated public/media assets are intentionally committed.
 !public/media/
+
+# Local credentials, tool state and generated design captures
+.aws/
+.codex/
+.agents/
+.impeccable/config.local.json
+.impeccable/hook.cache.json
+.impeccable/questions/
+.impeccable/mocks/
+.impeccable/review/

@@ -186,14 +186,7 @@ try {
   await page.unroute('**/api/inquiries');
   for (const width of [360, 390, 768, 1024, 1440, 1920]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const path of [
-      '/',
-      '/purchase',
-      '/contact',
-      '/faq',
-      '/privacy',
-      '/consent',
-    ]) {
+    for (const path of ['/', '/purchase', '/contact', '/privacy', '/consent']) {
       const response = await page.goto(base + path);
       assert.equal(response.status(), 200);
       await page.locator('h1').waitFor();
@@ -205,7 +198,7 @@ try {
       );
     }
   }
-  console.log('PASS six routes at 360/390/768/1024/1440px');
+  console.log('PASS five routes at 360/390/768/1024/1440px');
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(base);
   await page.screenshot({
@@ -245,12 +238,10 @@ try {
     fullPage: true,
   });
   console.log('PASS mobile navigation and aligned fields');
-  await page.goto(base + '/faq');
-  await page
-    .locator('summary')
-    .filter({ hasText: 'Какие документы можно получить?' })
-    .click();
-  assert.equal(await page.locator('details[open]').count(), 1);
+  const retired = await page.goto(base + '/faq');
+  assert.equal(retired.status(), 200);
+  assert.equal(new URL(page.url()).pathname, '/');
+  assert.equal(await page.locator('a[href="/faq"]').count(), 0);
   const missing = await page.goto(base + '/missing-page');
   assert.equal(missing.status(), 404);
   assert.equal(
@@ -258,9 +249,7 @@ try {
     'noindex, follow',
   );
   assert.deepEqual(errors, []);
-  console.log(
-    'PASS FAQ, genuine HTTP 404 and no browser runtime/hydration errors',
-  );
+  console.log('PASS genuine HTTP 404 and no browser runtime/hydration errors');
 } finally {
   await browser.close();
   server?.kill('SIGTERM');

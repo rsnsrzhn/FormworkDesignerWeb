@@ -8,7 +8,6 @@ test('all routes render meaningful content without browser globals', () => {
     '/',
     '/purchase',
     '/contact',
-    '/faq',
     '/privacy',
     '/consent',
     '/404',

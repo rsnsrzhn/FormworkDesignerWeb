@@ -19,6 +19,7 @@ export function validateInquiry(fields: InquiryFields): FieldErrors {
   if (name.length < 2 || name.length > 200 || /[\x00-\x1f\x7f]/.test(name))
     errors.fullName = 'Укажите имя и фамилию, от 2 до 200 символов.';
   if (
+    /[\x00-\x1f\x7f]/.test(fields.email) ||
     fields.email.trim().length > 254 ||
     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email.trim())
   )

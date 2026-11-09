@@ -11,6 +11,10 @@ const vite = await createViteServer({
 const server = createServer(async (req, res) => {
   try {
     const url = new URL(req.url || '/', 'http://localhost');
+    if (url.pathname === '/faq') {
+      res.writeHead(308, { Location: '/' }).end();
+      return;
+    }
     if (url.pathname.startsWith('/api/')) {
       await handleApi(req, res);
       return;
