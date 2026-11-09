@@ -1,11 +1,36 @@
 {
-  "name": "formworkdesigner-workspace",
+  "name": "formworkdesigner-web",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
-    "dev": "node scripts/dev.mjs",
-    "preview": "npm run build --prefix FormworkDesignerWeb/ClientApp && npm run dev --prefix FormworkDesignerWeb/ClientApp",
-    "build": "npm run build --prefix FormworkDesignerWeb/ClientApp && dotnet build FormworkDesignerWeb",
-    "test": "npm test --prefix FormworkDesignerWeb/ClientApp && dotnet run --project tests/ValidationTests"
+    "dev": "node --env-file-if-exists=.env --import tsx scripts/dev.ts",
+    "build": "tsc --noEmit && node --env-file-if-exists=.env --import tsx scripts/build.mjs",
+    "preview": "node --env-file-if-exists=.env --import tsx scripts/preview.ts",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "test:browser": "node tests/browser.mjs",
+    "check": "tsc --noEmit",
+    "format": "prettier --write src server api scripts tests vite.config.ts",
+    "format:check": "prettier --check src server api scripts tests vite.config.ts",
+    "social": "node --import tsx scripts/social.ts"
+  },
+  "dependencies": {
+    "@fontsource-variable/manrope": "^5.2.8",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "playwright": "^1.56.0",
+    "prettier": "^3.9.10",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "vite": "^8.3.6"
   }
 }

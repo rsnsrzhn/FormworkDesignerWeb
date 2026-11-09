@@ -1,3 +1,5 @@
+> Исторический документ. Описывает состояние до миграции 2026-11-09; актуальные запуск и архитектура — в README.md.
+
 # FormworkDesigner Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
