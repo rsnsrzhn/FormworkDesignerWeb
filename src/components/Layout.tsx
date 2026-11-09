@@ -4,7 +4,13 @@ import { Icon } from './Icon';
 export function Brand() {
   return (
     <Link className="brand" href="/" aria-label="FormworkDesigner — главная">
-      <svg className="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+      <svg
+        className="brand-mark"
+        width="32"
+        height="32"
+        viewBox="0 0 40 40"
+        aria-hidden="true"
+      >
         <rect width="40" height="40" rx="9" fill="#12263c" />
         <path d="M12 30V10h19v5H18v4h10v5H18v6z" fill="#80c1f3" />
       </svg>
@@ -44,19 +50,24 @@ export function Header({ path }: { path: string }) {
         >
           {[
             ['/', 'Возможности'],
-            ['/#demo', 'Попробовать'],
+            ['/#in-action', 'Приложение'],
             ['/purchase', 'Сотрудничество'],
             ['/faq', 'Вопросы'],
           ].map(([href, label]) => (
             <Link
               key={href}
               href={href}
+              onClick={() => setOpen(false)}
               aria-current={path === href ? 'page' : undefined}
             >
               {label}
             </Link>
           ))}
-          <Link href="/contact" className="button button-small">
+          <Link
+            href="/contact"
+            className="button button-small"
+            onClick={() => setOpen(false)}
+          >
             Обсудить проект <Icon name="arrow" size={17} />
           </Link>
         </nav>
@@ -83,7 +94,6 @@ export function Footer({ year = 2026 }: { year?: number }) {
             <Link href="/faq">Частые вопросы</Link>
           </div>
           <div className="footer-location">
-            <span className="status-dot" />
             Для специалистов
             <br />
             России и Беларуси

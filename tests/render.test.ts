@@ -17,11 +17,15 @@ test('all routes render meaningful content without browser globals', () => {
     assert.match(html, /<h1/);
     assert.match(html, /FormworkDesigner/);
     if (path === '/') {
-      assert.match(html, /Попробуйте/);
+      assert.match(html, /Посмотреть приложение/);
       assert.match(html, /90%/);
       assert.match(html, /сэкономленного времени/i);
       assert.match(html, /Предварительная оценка разработчика/);
-      assert.match(html, /Учебная/);
+      assert.doesNotMatch(
+        html,
+        /Учебная схема|status-dot|scene-check|workflow-number/,
+      );
+      assert.match(html, /PDF/);
     }
     if (path === '/404') assert.match(html, /404/);
   }
@@ -31,4 +35,16 @@ test('copyright uses serialized year rather than browser clock', async () => {
   const { Footer } = await import('../src/components/Layout.tsx');
   const html = renderToString(createElement(Footer, { year: 2040 }));
   assert.match(html.replace(/<!--.*?-->/gs, ''), /© 2040 FormworkDesigner/);
+});
+
+test('first HTML paint has stylesheet and a bounded logo before JavaScript', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const { Brand } = await import('../src/components/Layout.tsx');
+  const template = await readFile('index.html', 'utf8');
+  assert.match(
+    template,
+    /<link[^>]*rel="stylesheet"[^>]*href="\/src\/styles.css"/,
+  );
+  const html = renderToString(createElement(Brand));
+  assert.match(html, /<svg[^>]*width="32"[^>]*height="32"/);
 });

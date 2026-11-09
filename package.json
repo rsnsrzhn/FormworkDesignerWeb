@@ -18,7 +18,7 @@
     "social": "node --import tsx scripts/social.ts"
   },
   "dependencies": {
-    "@fontsource-variable/manrope": "^5.2.8",
+    "@fontsource/ibm-plex-sans": "^5.3.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

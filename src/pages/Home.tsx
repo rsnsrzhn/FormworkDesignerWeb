@@ -1,255 +1,258 @@
 import { useState } from 'react';
 import { Link } from '../components/Link';
-import { Icon } from '../components/Icon';
 import { Media } from '../components/Media';
 import { CTA } from '../components/Layout';
-import { FormworkScene } from '../components/FormworkScene';
-import { Demo } from '../components/Demo';
-const demos = [
+const demonstrations = [
   {
     name: '05-risovanie',
-    title: 'Нарисуйте контур',
+    title: 'Контур',
     description:
-      'Создавайте геометрию, задавайте размеры и редактируйте план в одном рабочем пространстве.',
+      'Построение контура, размеры и редактирование геометрии в одном рабочем пространстве.',
   },
   {
     name: '02-razbivka',
-    title: 'Разложите щиты',
+    title: 'Раскладка',
     description:
-      'Получайте схему раскладки вместе с ведомостью щитов, вставок, уголков и крепежа.',
+      'Расстановка щитов по контуру и ведомость элементов рядом с чертежом.',
   },
   {
     name: '03-vysota',
-    title: 'Измените высоту',
-    description:
-      'Меняйте высоту опалубки и проверяйте обновлённый состав комплекта без отдельного ручного подсчёта.',
+    title: 'Высота',
+    description: 'Изменение высоты опалубки и пересчёт состава комплекта.',
   },
   {
     name: '04-list',
-    title: 'Подготовьте лист',
-    description:
-      'Схема, ведомость, памятка и нарезка трубок ПВХ помогают передать результат дальше.',
+    title: 'Документы',
+    description: 'Рабочий лист, памятка по монтажу и план раскроя трубок ПВХ.',
   },
   {
     name: '01-primery',
-    title: 'Изучите примеры',
+    title: 'Примеры',
     description:
-      'Посмотрите, как реальные контуры и элементы выглядят в настольном приложении.',
+      'Встроенный пример дома: внешний контур и внутренние помещения.',
   },
 ];
 export function Home() {
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(1);
   return (
     <>
-      <section className="container hero">
-        <div className="hero-copy">
-          <span className="eyebrow">
-            <span className="status-dot" /> Приложение для проектирования
-            опалубки
-          </span>
-          <h1>
-            Опалубка.
-            <br />
-            <span>Всё сходится.</span>
-          </h1>
-          <p>
-            От первого контура до раскладки щитов и рабочего листа. Меньше
-            ручного подсчёта — больше внимания вашему проекту.
-          </p>
-          <div className="hero-actions">
-            <a className="button" href="#demo">
-              Попробовать в деле <Icon name="arrow" size={18} />
-            </a>
-            <a className="text-link" href="#in-action">
-              Посмотреть приложение <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-          <div className="hero-platforms">
-            <span>Десктоп</span>
-            <span>Android</span>
-            <span>Ваш рабочий процесс</span>
-          </div>
-        </div>
-        <figure className="hero-visual">
-          <div className="scene-topline">
-            <span>FORMWORK / DESIGN STUDY</span>
-            <span>01 — 03</span>
-          </div>
-          <FormworkScene />
-          <div className="scene-card">
-            <span className="scene-check">
-              <Icon name="check" size={16} />
-            </span>
-            <div>
-              <strong>Каждому элементу — своё место.</strong>
-              <span>Геометрия. Раскладка. Комплект.</span>
+      <section className="hero">
+        <div className="hero-drawing" aria-hidden="true" />
+        <div className="container hero-inner">
+          <div className="hero-copy">
+            <p className="hero-kicker">FormworkDesigner</p>
+            <h1>
+              Меньше рутины.
+              <br />
+              <span>Больше проекта.</span>
+            </h1>
+            <p className="hero-description">
+              Приложение для проектирования опалубки. Начертите контур, получите
+              раскладку щитов и подготовьте комплект документов.
+            </p>
+            <div className="hero-actions">
+              <a className="button" href="#in-action">
+                Посмотреть приложение
+              </a>
+              <Link className="button button-outline" href="/contact">
+                Обсудить сотрудничество
+              </Link>
             </div>
+            <p className="hero-platforms">На компьютере и Android</p>
           </div>
-          <figcaption>
-            Объёмная иллюстрация опалубки · приложение работает с 2D-чертежами
+          <p className="drawing-caption">
+            Контур встроенного примера «Дом» · 12 × 9 м
+          </p>
+        </div>
+      </section>
+      <section className="container product-intro" data-reveal>
+        <h2>
+          От геометрии
+          <br />
+          <span>к составу комплекта.</span>
+        </h2>
+        <div>
+          <p>
+            Чертёж и ведомость не должны жить отдельно. FormworkDesigner
+            связывает контур, раскладку и перечень элементов в одном проекте.
+          </p>
+          <p>
+            Работайте с геометрией, меняйте высоту, проверяйте количество щитов
+            и крепежа. Затем подготовьте документы для дальнейшей работы.
+          </p>
+        </div>
+      </section>
+      <section
+        className="container product-section"
+        id="in-action"
+        aria-labelledby="product-title"
+        data-reveal
+      >
+        <div className="section-heading">
+          <h2 id="product-title">
+            Посмотрите,
+            <br />
+            <span>как это работает.</span>
+          </h2>
+          <p>
+            Реальные записи настольной версии.
+            <br />
+            От первого контура до рабочего листа.
+          </p>
+        </div>
+        <div
+          className="product-tabs"
+          role="group"
+          aria-label="Демонстрации возможностей"
+        >
+          {demonstrations.map((item, index) => (
+            <button
+              key={item.name}
+              aria-pressed={selected === index}
+              aria-controls="product-preview"
+              onClick={() => setSelected(index)}
+            >
+              {item.title}
+            </button>
+          ))}
+        </div>
+        <figure className="product-preview" id="product-preview">
+          <Media
+            key={demonstrations[selected].name}
+            name={demonstrations[selected].name}
+            title={demonstrations[selected].title}
+            eager
+          />
+          <figcaption className="preview-description" aria-live="polite">
+            {demonstrations[selected].description}
           </figcaption>
         </figure>
       </section>
-      <section className="container workflow" aria-label="Рабочий процесс">
-        {[
-          ['01', 'Контур', 'Нарисуйте геометрию проекта.'],
-          ['02', 'Раскладка', 'Подберите элементы по контуру.'],
-          ['03', 'Документы', 'Подготовьте комплект и рабочий лист.'],
-        ].map(([n, title, text]) => (
-          <div key={n}>
-            <span className="workflow-number">{n}</span>
-            <div>
-              <h2>{title}</h2>
-              <p>{text}</p>
-            </div>
-            <span className="workflow-arrow" aria-hidden="true">
-              ↗
-            </span>
+      <section
+        className="time-saving"
+        aria-labelledby="time-saving-title"
+        data-reveal
+      >
+        <div className="container time-saving-inner">
+          <h2 id="time-saving-title">
+            До <strong>90%</strong>
+            <span>сэкономленного времени</span>
+          </h2>
+          <div>
+            <p>
+              Пусть программа считает.
+              <br />А вы занимаетесь проектом.
+            </p>
+            <p className="time-saving-note">
+              Предварительная оценка разработчика относительно ручной работы,
+              без контрольных замеров. Результат зависит от проекта и опыта
+              специалиста.
+            </p>
           </div>
-        ))}
+        </div>
       </section>
       <section
-        className="container time-saving"
-        aria-labelledby="time-saving-title"
+        className="container capabilities"
+        aria-labelledby="capabilities-title"
+        data-reveal
       >
-        <h2 id="time-saving-title">
-          <span>
-            До <strong>90%</strong>
-          </span>{' '}
-          сэкономленного времени
-        </h2>
-        <div>
-          <p>Меньше ручного подсчёта — больше времени на проект.</p>
-          <p className="time-saving-note">
-            Предварительная оценка разработчика относительно ручной работы, без
-            контрольных замеров. Результат зависит от проекта и опыта
-            специалиста.
-          </p>
-        </div>
-      </section>
-      <Demo />
-      <section className="container product-section" id="in-action">
         <div className="section-heading">
-          <div>
-            <span className="eyebrow">Настоящее приложение</span>
-            <h2>
-              Один проект.
-              <br />
-              <span>Связанные результаты.</span>
-            </h2>
-          </div>
+          <h2 id="capabilities-title">
+            Всё, что связано
+            <br />
+            <span>с вашим чертежом.</span>
+          </h2>
           <p>
-            Посмотрите, как устроена работа в FormworkDesigner: от геометрии до
-            документов, которые можно передать команде.
+            Отдельные рабочие задачи.
+            <br />
+            Один последовательный процесс.
           </p>
         </div>
-        <div className="product-showcase">
-          <div className="product-tabs" aria-label="Демонстрации возможностей">
-            {demos.map((demo, i) => (
-              <button
-                key={demo.name}
-                aria-pressed={i === selected}
-                aria-controls="product-preview"
-                onClick={() => setSelected(i)}
-              >
-                <span>0{i + 1}</span>
-                {demo.title}
-                <span aria-hidden="true">↗</span>
-              </button>
-            ))}
-          </div>
-          <div className="product-preview" id="product-preview">
-            <div className="product-windowbar">
-              <span>
-                <i />
-                <i />
-                <i />
-              </span>
-              <span>FormworkDesigner / настольная версия</span>
-              <Icon name="grid" size={15} />
-            </div>
-            <Media
-              key={demos[selected].name}
-              name={demos[selected].name}
-              title={demos[selected].title}
-            />
-            <p className="preview-description" aria-live="polite">
-              {demos[selected].description}
-            </p>
-          </div>
-        </div>
-      </section>
-      <section className="outcomes-section">
-        <div className="container outcomes-layout">
-          <div className="outcomes-intro">
-            <span className="eyebrow">От схемы — к работе</span>
-            <h2>
-              Важен не только
-              <br />
-              чертёж.
-              <br />
-              <span>Важен весь комплект.</span>
-            </h2>
+        <div className="capabilities-grid">
+          <article>
+            <p className="feature-label">Геометрия</p>
+            <h3>
+              Проект начинается
+              <br />с вашего контура.
+            </h3>
             <p>
-              Когда геометрия, элементы и документы связаны, проще проверить
-              результат и продолжить работу после изменений.
+              Линии, размеры, измерения и привязки. Редактируйте геометрию и
+              возвращайтесь к предыдущим действиям через историю изменений.
             </p>
-            <Link href="/purchase" className="text-link">
-              Обсудить задачи команды <Icon name="arrow" />
-            </Link>
-          </div>
-          <div className="outcomes-list">
-            {[
-              [
-                'layers',
-                'Состав комплекта на виду',
-                'Щиты, вставки, уголки, стяжки и крепёж сгруппированы в ведомости по типоразмерам и количеству.',
-              ],
-              [
-                'ruler',
-                'Расходники тоже учтены',
-                'Трубки ПВХ с планом раскроя, конусы и масло дополняют список основных элементов.',
-              ],
-              [
-                'sheet',
-                'Результат можно передать',
-                'PDF рабочего листа и памятки, SVG и HTML-просмотрщик помогают делиться результатом.',
-              ],
-              [
-                'grid',
-                'Изменения остаются в проекте',
-                'Редактируйте контур, меняйте высоту и проверяйте обновлённую раскладку и ведомость.',
-              ],
-            ].map(([icon, title, text]) => (
-              <article key={title}>
-                <span className="outcome-icon">
-                  <Icon name={icon as 'layers' | 'ruler' | 'sheet' | 'grid'} />
-                </span>
-                <div>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+            <dl>
+              <div>
+                <dt>Контуры</dt>
+                <dd>Внешние и внутренние</dd>
+              </div>
+              <div>
+                <dt>Проект</dt>
+                <dd>Сохранение в .fwd</dd>
+              </div>
+            </dl>
+          </article>
+          <article>
+            <p className="feature-label">Комплектование</p>
+            <h3>
+              Элементы —<br />
+              рядом со схемой.
+            </h3>
+            <p>
+              Щиты, вставки, доски, внутренние и наружные уголки. Ведомость
+              показывает типоразмеры и количество элементов, стяжек и крепежа.
+            </p>
+            <dl>
+              <div>
+                <dt>Высота</dt>
+                <dd>Пересчёт ведомости</dd>
+              </div>
+              <div>
+                <dt>Расходники</dt>
+                <dd>ПВХ, конусы, масло</dd>
+              </div>
+            </dl>
+          </article>
+          <article>
+            <p className="feature-label">Документация</p>
+            <h3>
+              Результат, который
+              <br />
+              можно передать.
+            </h3>
+            <p>
+              Рабочий лист с чертежом и ведомостью, памятка по монтажу и план
+              раскроя трубок ПВХ. Подготовьте документы для команды и заказчика.
+            </p>
+            <dl>
+              <div>
+                <dt>Рабочие листы</dt>
+                <dd>PDF</dd>
+              </div>
+              <div>
+                <dt>Чертёж</dt>
+                <dd>HTML-просмотрщик</dd>
+              </div>
+            </dl>
+          </article>
         </div>
       </section>
-      <section className="container company-section">
-        <span className="eyebrow">Под ваш способ работы</span>
+      <section className="container company-section" data-reveal>
         <h2>
-          Хороший инструмент
+          Ваши процессы.
           <br />
-          понимает <span>ваши задачи.</span>
+          <span>Ваш инструмент.</span>
         </h2>
         <div>
           <p>
-            Обсудим, как FormworkDesigner впишется в процессы вашей команды: от
-            оформления рабочих листов до индивидуальных доработок.
+            У каждой компании свои задачи: состав ведомостей, оформление
+            документов, привычный порядок работы.
           </p>
           <p>
-            Программа доступна на десктопе и Android. Подходящую версию,
-            возможности и условия сотрудничества подберём при знакомстве.
+            Обсудим приобретение FormworkDesigner и необходимые доработки.
+            Возможность реализации, состав поддержки и условия согласуем лично.
           </p>
+          <Link className="text-link" href="/purchase">
+            О сотрудничестве <span aria-hidden="true">→</span>
+          </Link>
         </div>
       </section>
       <CTA />

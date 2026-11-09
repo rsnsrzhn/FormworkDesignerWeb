@@ -2,7 +2,7 @@ export const pages: Record<string, { title: string; description: string }> = {
   '/': {
     title: 'Программа для проектирования опалубки — FormworkDesigner',
     description:
-      'FormworkDesigner — приложение для проектирования опалубки: контуры, раскладка щитов, ведомость элементов, раскрой ПВХ и PDF. Попробуйте интерактивную схему.',
+      'FormworkDesigner — приложение для проектирования опалубки: контуры, раскладка щитов, ведомость элементов, раскрой ПВХ и PDF. Посмотрите приложение в работе.',
   },
   '/purchase': {
     title: 'Покупка и доработка — FormworkDesigner',

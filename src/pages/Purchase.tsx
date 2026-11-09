@@ -33,7 +33,6 @@ export function Purchase() {
           </Link>
         </article>
         <article className="purchase-card accent-card">
-          <span className="eyebrow">Индивидуально</span>
           <h2>Поддержка и доработки</h2>
           <p>
             После приобретения программа может развиваться вместе с вашей
@@ -75,7 +74,6 @@ export function Purchase() {
             ],
           ].map(([n, title, text]) => (
             <article key={n}>
-              <span>{n}</span>
               <h3>{title}</h3>
               <p>{text}</p>
             </article>

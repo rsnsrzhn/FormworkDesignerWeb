@@ -1,3 +1,4 @@
+import { mountScrollMotion } from './lib/motion';
 import { useEffect, useState } from 'react';
 import { Header, Footer } from './components/Layout';
 import { Link } from './components/Link';
@@ -23,6 +24,10 @@ export function App({
       .catch(() => {});
     return () => controller.abort();
   }, [attempt]);
+  useEffect(() => {
+    const main = document.getElementById('main');
+    if (main) return mountScrollMotion(main);
+  }, [path]);
   const content =
     path === '/' ? (
       <Home />

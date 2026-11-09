@@ -44,9 +44,27 @@ try {
   });
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
+  // First paint must remain styled with the JavaScript bundle unavailable.
+  const noScript = await browser.newContext({
+    javaScriptEnabled: false,
+    viewport: { width: 1440, height: 1000 },
+  });
+  const firstPaint = await noScript.newPage();
+  await firstPaint.goto(base);
+  const logoSize = await firstPaint
+    .locator('.header .brand-mark')
+    .boundingBox();
+  assert.equal(logoSize.width, 32);
+  assert.equal(logoSize.height, 32);
+  assert.ok(await firstPaint.locator('link[rel=stylesheet]').count());
+  assert.ok(await firstPaint.locator('h1').isVisible());
+  await noScript.close();
+  console.log('PASS styled first paint and bounded logo without JavaScript');
   const home = await page.goto(base);
   assert.equal(home.status(), 200);
-  await page.getByRole('heading', { name: /Опалубка. Всё сходится/ }).waitFor();
+  await page
+    .getByRole('heading', { name: /Меньше рутины. Больше проекта/ })
+    .waitFor();
   assert.ok(
     await page.locator('meta[name="description"]').getAttribute('content'),
   );
@@ -56,32 +74,49 @@ try {
     fullPage: true,
   });
   console.log('PASS rendered homepage and metadata');
-  await page.getByRole('link', { name: 'Попробовать в деле' }).click();
-  const demo = page.locator('#demo');
-  await demo.getByLabel('Ширина', { exact: true }).fill('9');
-  await demo.getByLabel('Длина', { exact: true }).fill('10');
-  await demo.getByRole('button', { name: 'Перейти к раскладке' }).click();
-  await demo.getByLabel('1,8 м', { exact: true }).check();
-  await demo.getByRole('button', { name: 'Построить раскладку' }).click();
-  assert.ok(
-    (await demo.locator('.demo-results').textContent()).includes('9 × 10'),
+  assert.equal(
+    await page
+      .locator('#demo, .status-dot, .scene-check, .workflow-number')
+      .count(),
+    0,
   );
-  assert.ok(
-    (await demo.locator('.demo-results').textContent()).includes('136,8'),
+  assert.match(
+    await page
+      .locator('body')
+      .evaluate((el) => getComputedStyle(el).fontFamily),
+    /IBM Plex Sans/,
   );
-  await demo.getByRole('button', { name: 'Что дальше?' }).click();
-  await page.getByRole('dialog').waitFor();
-  assert.equal(await page.locator('dialog').evaluate((el) => el.open), true);
-  await page.keyboard.press('Escape');
-  await page.getByRole('dialog').waitFor({ state: 'hidden' });
-  await demo.getByRole('button', { name: 'Что дальше?' }).click();
   await page
-    .getByRole('dialog')
-    .getByRole('link', { name: 'Заполнить заявку' })
+    .getByRole('link', { name: 'Посмотреть приложение', exact: true })
+    .click();
+  const selection = page.getByRole('group', {
+    name: 'Демонстрации возможностей',
+  });
+  await selection
+    .getByRole('button', { name: 'Документы', exact: true })
+    .click();
+  assert.match(
+    await page.locator('#product-preview video').getAttribute('poster'),
+    /04-list/,
+  );
+  await selection.getByRole('button', { name: 'Высота', exact: true }).click();
+  assert.equal(
+    await selection
+      .getByRole('button', { name: 'Высота', exact: true })
+      .getAttribute('aria-pressed'),
+    'true',
+  );
+  assert.match(
+    await page.locator('#product-preview video').getAttribute('poster'),
+    /03-vysota/,
+  );
+  await page
+    .locator('.hero')
+    .getByRole('link', { name: 'Обсудить сотрудничество' })
     .click();
   assert.equal(new URL(page.url()).pathname, '/contact');
   console.log(
-    'PASS complete guided tutorial, live geometry, dismissible dialog and cooperation CTA',
+    'PASS new font, removed decorations, real video selection and cooperation CTA',
   );
   await page.getByRole('button', { name: 'Отправить заявку' }).click();
   assert.ok((await page.locator('[aria-invalid=true]').count()) >= 3);
@@ -172,6 +207,15 @@ try {
   await page.getByRole('button', { name: 'Открыть меню' }).click();
   await page
     .getByRole('navigation', { name: 'Основная навигация' })
+    .getByRole('link', { name: 'Приложение', exact: true })
+    .click();
+  assert.equal(
+    await page.locator('.menu-toggle').getAttribute('aria-expanded'),
+    'false',
+  );
+  await page.getByRole('button', { name: 'Открыть меню' }).click();
+  await page
+    .getByRole('navigation', { name: 'Основная навигация' })
     .getByRole('link', { name: 'Обсудить проект' })
     .click();
   await page.locator('.form-card').waitFor();
@@ -192,30 +236,11 @@ try {
     path: 'test-results/contact-mobile.png',
     fullPage: true,
   });
-  await page.goto(base);
-  await page.locator('#demo').scrollIntoViewIfNeeded();
-  await page.getByRole('button', { name: 'Перейти к раскладке' }).click();
-  await page.getByRole('button', { name: 'Построить раскладку' }).click();
-  await page.getByRole('button', { name: 'Что дальше?' }).click();
-  await page.screenshot({
-    path: 'test-results/demo-mobile.png',
-    fullPage: true,
-  });
-  await page.keyboard.press('Escape');
-  await page
-    .getByRole('button', { name: 'Начать демонстрацию заново' })
-    .click();
-  assert.equal(
-    await page.getByLabel('Ширина', { exact: true }).inputValue(),
-    '6',
-  );
-  console.log(
-    'PASS mobile navigation, aligned fields, tutorial modal and reset',
-  );
+  console.log('PASS mobile navigation and aligned fields');
   await page.goto(base + '/faq');
   await page
     .locator('summary')
-    .filter({ hasText: 'Что можно попробовать прямо на сайте?' })
+    .filter({ hasText: 'Какие документы можно получить?' })
     .click();
   assert.equal(await page.locator('details[open]').count(), 1);
   const missing = await page.goto(base + '/missing-page');

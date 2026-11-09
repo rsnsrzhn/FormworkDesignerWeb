@@ -78,11 +78,9 @@ export function Contact({
       <div className="contact-intro">
         <span className="eyebrow">Давайте познакомимся</span>
         <h1>
-          Ваш следующий
+          Обсудим
           <br />
-          чертёж может
-          <br />
-          быть <span>проще.</span>
+          <span>ваш проект.</span>
         </h1>
         <p>
           Расскажите о своей компании. Обсудим приобретение FormworkDesigner и
@@ -90,29 +88,22 @@ export function Contact({
         </p>
         <div className="contact-steps">
           <div>
-            <span>01</span>
             <p>Вы оставляете контакты</p>
           </div>
           <div>
-            <span>02</span>
             <p>Мы уточняем ваши задачи</p>
           </div>
           <div>
-            <span>03</span>
             <p>Вместе выбираем решение</p>
           </div>
         </div>
         <div className="contact-geography">
-          <span className="status-dot" />
           Работаем с компаниями России и Беларуси
         </div>
       </div>
       <div className="form-card" id="inquiry-form">
         {success ? (
           <div className="success-panel" tabIndex={-1} ref={successRef}>
-            <span className="success-icon">
-              <Icon name="check" size={32} />
-            </span>
             <span className="eyebrow">Спасибо за интерес</span>
             <h2>Заявка принята.</h2>
             <p>
@@ -171,7 +162,7 @@ export function Contact({
                     label: 'Телефон',
                     type: 'tel',
                     autocomplete: 'tel',
-                    placeholder: '+375 (29) 000-00-00 или +7 (900) 000-00-00',
+                    placeholder: '+375 29 123-45-67',
                     max: 40,
                   },
                 ] as const
@@ -207,7 +198,7 @@ export function Contact({
                     </span>
                   ) : key === 'phone' ? (
                     <span id="phone-hint" className="field-hint">
-                      Номер России или Беларуси
+                      Россия (+7) или Беларусь (+375)
                     </span>
                   ) : null}
                 </div>
