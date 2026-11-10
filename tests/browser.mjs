@@ -72,6 +72,31 @@ try {
     fullPage: true,
   });
   console.log('PASS rendered homepage and metadata');
+  for (const name of [
+    '01-primery',
+    '02-razbivka',
+    '03-vysota',
+    '04-list',
+    '05-risovanie',
+  ]) {
+    for (const extension of ['jpg', 'mp4']) {
+      const response = await page.request.get(
+        `${base}/media/${name}.${extension}`,
+      );
+      assert.equal(
+        response.status(),
+        200,
+        `Missing product media: ${name}.${extension}`,
+      );
+      assert.match(
+        response.headers()['content-type'],
+        extension === 'jpg' ? /image\/jpeg/ : /video\/mp4/,
+      );
+      assert.ok((await response.body()).length > 0);
+    }
+  }
+  console.log('PASS all 10 product media return their expected content types');
+
   assert.equal(
     await page
       .locator('#demo, .status-dot, .scene-check, .workflow-number')

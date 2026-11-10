@@ -2,7 +2,32 @@ import { build } from 'vite';
 import { readFile, writeFile, mkdir, rm, readdir } from 'node:fs/promises';
 import { htmlPage, productionOrigin } from './html.ts';
 import { getSiteConfig } from '../server/config.ts';
+const mediaNames = [
+  '01-primery',
+  '02-razbivka',
+  '03-vysota',
+  '04-list',
+  '05-risovanie',
+];
+for (const name of mediaNames) {
+  for (const extension of ['jpg', 'mp4']) {
+    const source = await readFile(`public/media/${name}.${extension}`);
+    if (!source.length)
+      throw new Error(`Empty product media: ${name}.${extension}`);
+  }
+}
 await build();
+for (const name of mediaNames) {
+  for (const extension of ['jpg', 'mp4']) {
+    const source = await readFile(`public/media/${name}.${extension}`);
+    const output = await readFile(`dist/media/${name}.${extension}`);
+    if (!source.equals(output))
+      throw new Error(
+        `Product media was not copied correctly: ${name}.${extension}`,
+      );
+  }
+}
+console.log('Verified 10 product media files in dist/media.');
 await build({
   build: { ssr: 'src/entry-server.tsx', outDir: '.server', emptyOutDir: true },
 });

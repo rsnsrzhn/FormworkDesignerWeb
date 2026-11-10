@@ -42,3 +42,19 @@ test('email rejects control characters before it reaches mail provider', () => {
     }).email,
   );
 });
+
+test('deployment ignore rules do not exclude public product media', async () => {
+  const ignore = await readFile('.vercelignore', 'utf8');
+  const patterns = ignore.split(/\r?\n/).map((line) => line.trim());
+  assert.ok(
+    !patterns.some((line) =>
+      /^(?:\*\*\/)?(?:public\/)?media(?:\/.*)?$/.test(line),
+    ),
+    'Product media must be included in Vercel deployments',
+  );
+  const gitignore = await readFile('.gitignore', 'utf8');
+  assert.ok(
+    !gitignore.split(/\r?\n/).includes('media/'),
+    'Local source media exclusion must be root-anchored',
+  );
+});
