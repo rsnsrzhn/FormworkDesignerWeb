@@ -2151,3 +2151,186 @@ h3 {
     padding-block: 50px;
   }
 }
+
+/* Interface type: clear labels, readable supporting text, consistent weights. */
+:root {
+  --type-control: 1rem;
+  --type-support: 0.875rem;
+}
+.nav {
+  font-size: var(--type-control);
+  font-weight: 500;
+  gap: 28px;
+}
+.brand {
+  font-size: 19px;
+  font-weight: 600;
+}
+.brand-light {
+  font-weight: 500;
+}
+.button {
+  font-size: var(--type-control);
+  font-weight: 600;
+  line-height: 1.45;
+}
+.button-small {
+  font-size: 15px;
+  min-height: 44px;
+  padding: 11px 18px;
+}
+.text-link {
+  font-size: var(--type-control);
+  font-weight: 600;
+  line-height: 1.55;
+}
+.form-field label {
+  font-size: var(--type-control);
+  font-weight: 600;
+}
+.form-field input {
+  font-size: 17px;
+  font-weight: 400;
+  min-height: 56px;
+}
+.form-field input::placeholder {
+  font-size: 16px;
+  opacity: 1;
+}
+.field-hint,
+.field-error,
+.form-footnote {
+  font-size: var(--type-support);
+  line-height: 1.6;
+}
+.consent-field label {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--ink);
+}
+.consent-field input {
+  width: 19px;
+  height: 19px;
+  margin-top: 3px;
+}
+.form-heading p {
+  font-size: 17px;
+  line-height: 1.6;
+}
+.form-notice,
+.form-error {
+  font-size: 15px;
+  line-height: 1.65;
+}
+.engineering-heading .demo-note {
+  font-size: var(--type-support);
+  line-height: 1.65;
+}
+.hero-product figcaption,
+.result-grid figcaption,
+.purchase-offer figcaption {
+  font-size: var(--type-support);
+  line-height: 1.65;
+}
+.preview-description {
+  font-size: 16px;
+  line-height: 1.65;
+}
+.product-tabs button {
+  font-weight: 500;
+}
+.back-link,
+.legal-meta {
+  font-size: 15px;
+  line-height: 1.6;
+}
+.footer-links {
+  font-size: 16px;
+  font-weight: 500;
+  gap: 16px;
+}
+.footer-top > div > p,
+.footer-location {
+  font-size: 14px;
+  line-height: 1.7;
+}
+.footer-bottom {
+  font-size: 14px;
+  line-height: 1.65;
+}
+.cta p {
+  font-size: 17px;
+  line-height: 1.65;
+}
+@media (max-width: 1100px) {
+  .header-inner {
+    min-height: 72px;
+  }
+  .menu-toggle {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+  .nav {
+    display: none;
+  }
+  .nav.is-open {
+    display: flex;
+    position: absolute;
+    top: 71px;
+    left: 32px;
+    right: 32px;
+    align-items: stretch;
+    flex-direction: column;
+    background: #f7f6f0;
+    padding: 20px 24px 24px;
+    border: 1px solid var(--border);
+    gap: 4px;
+    box-shadow: 0 12px 24px #2428270d;
+  }
+  .nav > a:not(.button) {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding-block: 8px;
+  }
+  .nav .button {
+    margin-top: 12px;
+  }
+}
+@media (max-width: 600px) {
+  .brand {
+    font-size: 18px;
+  }
+  .header-inner {
+    min-height: 66px;
+  }
+  .menu-toggle {
+    width: 42px;
+    height: 42px;
+  }
+  .nav.is-open {
+    top: 65px;
+    left: 20px;
+    right: 20px;
+    padding-inline: 20px;
+  }
+  .product-tabs button,
+  .product-tabs button:first-child {
+    font-size: 14px;
+  }
+  .footer-links {
+    font-size: 15px;
+  }
+  .footer-bottom {
+    font-size: 13px;
+  }
+  .form-heading p {
+    font-size: 16px;
+  }
+}
