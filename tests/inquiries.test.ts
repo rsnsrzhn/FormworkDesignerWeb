@@ -70,14 +70,21 @@ test('accepts only after actual provider acknowledgement and forwards idempotenc
     assert.equal(url, 'https://api.resend.com/emails');
     assert.equal(
       new Headers(init?.headers).get('Idempotency-Key'),
-      `inquiry/${fields.requestId}`,
+      `${called === 1 ? 'inquiry' : 'inquiry-confirmation'}/${fields.requestId}`,
     );
-    assert.equal(JSON.parse(String(init?.body)).reply_to, fields.email);
+    const payload = JSON.parse(String(init?.body));
+    if (called === 1) {
+      assert.equal(payload.reply_to, fields.email);
+      assert.deepEqual(payload.to, [env.INQUIRY_TO]);
+    } else {
+      assert.deepEqual(payload.to, [fields.email]);
+      assert.match(payload.text, /заявка.*получена/);
+    }
     return new Response(JSON.stringify({ id: 'provider-message-id' }), {
       status: 200,
     });
   });
-  assert.equal(called, 1);
+  assert.equal(called, 2);
   assert.equal(response.status, 202);
 });
 test('provider failure, malformed success and timeout do not become success', async () => {
@@ -100,4 +107,30 @@ test('GET does not submit and missing origin is rejected', async () => {
   const r = req();
   r.headers.delete('origin');
   assert.equal((await handleInquiry(r, env)).status, 403);
+});
+
+test('receipt failure does not reject or resend an accepted enquiry', async (t) => {
+  t.mock.method(console, 'warn', () => {});
+  for (const failure of ['http', 'malformed', 'timeout']) {
+    let called = 0;
+    const result = await handleInquiry(req(), env, async () => {
+      called++;
+      if (called === 1) return Response.json({ id: 'owner-message' });
+      if (failure === 'timeout') throw new Error('timeout');
+      return Response.json({}, { status: failure === 'http' ? 403 : 200 });
+    });
+    assert.equal(result.status, 202);
+    assert.equal((await result.json()).confirmationSent, false);
+    assert.equal(called, 2);
+  }
+});
+
+test('owner delivery failure never sends a receipt to the applicant', async () => {
+  let called = 0;
+  const result = await handleInquiry(req(), env, async () => {
+    called++;
+    return Response.json({}, { status: 502 });
+  });
+  assert.equal(result.status, 502);
+  assert.equal(called, 1);
 });

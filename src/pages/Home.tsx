@@ -76,7 +76,7 @@ export function Home() {
           </figcaption>
         </figure>
       </section>
-      <section className="container workflow-section" id="in-action">
+      <section className="container workflow-section">
         <div className="workflow-intro">
           <h2>
             От контура
@@ -86,6 +86,7 @@ export function Home() {
         </div>
         <div
           className="product-tabs"
+          id="in-action"
           role="group"
           aria-label="Демонстрации возможностей"
         >

@@ -1,5 +1,5 @@
 /** Content stays readable without JavaScript. Animate once, using compositor properties. */
-export function mountScrollMotion(root: HTMLElement) {
+export function mountScrollMotion(root: HTMLElement, animateInitial = true) {
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   if (preference.matches || !('IntersectionObserver' in window)) return;
   const animations = new Set<Animation>();
@@ -7,11 +7,11 @@ export function mountScrollMotion(root: HTMLElement) {
     if (preference.matches) return;
     const animation = element.animate(
       [
-        { opacity: 0.25, transform: 'translateY(14px)' },
+        { opacity: 0.45, transform: 'translateY(10px)' },
         { opacity: 1, transform: 'translateY(0)' },
       ],
       {
-        duration: 480,
+        duration: 680,
         delay,
         easing: 'cubic-bezier(.16,1,.3,1)',
         fill: 'backwards',
@@ -38,9 +38,9 @@ export function mountScrollMotion(root: HTMLElement) {
   for (const element of targets) {
     const bounds = element.getBoundingClientRect();
     if (bounds.bottom <= 0) continue;
-    if (bounds.top < innerHeight - 24)
-      reveal(element, Math.min(initial++ * 65, 130));
-    else observer.observe(element);
+    if (bounds.top < innerHeight - 24) {
+      if (animateInitial) reveal(element, Math.min(initial++ * 65, 130));
+    } else observer.observe(element);
   }
   const stop = () => {
     if (preference.matches)

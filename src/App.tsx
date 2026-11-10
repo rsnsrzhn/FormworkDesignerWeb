@@ -1,5 +1,5 @@
 import { mountScrollMotion } from './lib/motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { pages } from './site';
 import { Header, Footer } from './components/Layout';
@@ -18,6 +18,7 @@ export function App({
 }) {
   const [path, setPath] = useState(initialPath);
   const [config, setConfig] = useState<SiteConfig | null>(initialConfig);
+  const skipInitialMotion = useRef(false);
   const [attempt, setAttempt] = useState(0);
   useEffect(() => {
     let changing = false;
@@ -27,13 +28,16 @@ export function App({
       const url = new URL(target, location.origin);
       const main = document.getElementById('main');
       const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (main && !reduced)
-        await main
-          .animate(
-            [{ opacity: 1 }, { opacity: 0, transform: 'translateY(-6px)' }],
-            { duration: 140, easing: 'ease-in' },
-          )
-          .finished.catch(() => {});
+      const exit =
+        main && !reduced
+          ? main.animate([{ opacity: 1 }, { opacity: 0 }], {
+              duration: 240,
+              easing: 'cubic-bezier(.4,0,.6,1)',
+              fill: 'forwards',
+            })
+          : null;
+      if (exit) await exit.finished.catch(() => {});
+      skipInitialMotion.current = true;
       if (push) history.pushState(null, '', target);
       flushSync(() => setPath(url.pathname));
       const page = pages[url.pathname];
@@ -62,6 +66,12 @@ export function App({
         document
           .getElementById(url.hash.slice(1))
           ?.scrollIntoView({ behavior: 'instant' });
+      exit?.cancel();
+      if (main && !reduced)
+        main.animate([{ opacity: 0 }, { opacity: 1 }], {
+          duration: 460,
+          easing: 'cubic-bezier(.22,1,.36,1)',
+        });
       main?.focus({ preventScroll: true });
       changing = false;
     }
@@ -90,7 +100,8 @@ export function App({
     const main = document.getElementById('main');
     let cleanup: (() => void) | undefined;
     const frame = requestAnimationFrame(() => {
-      if (main) cleanup = mountScrollMotion(main);
+      if (main) cleanup = mountScrollMotion(main, !skipInitialMotion.current);
+      skipInitialMotion.current = false;
     });
     return () => {
       cancelAnimationFrame(frame);

@@ -289,6 +289,35 @@ try {
   console.log(
     'PASS navigation without document reload, entry animation and browser Back',
   );
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 1000 });
+    for (const from of ['/', '/purchase']) {
+      await page.goto(base + from);
+      if (width === 390)
+        await page.getByRole('button', { name: 'Открыть меню' }).click();
+      await page.locator('.header a[href="/#in-action"]').click();
+      await page.waitForURL('**/#in-action');
+      await page.waitForFunction(
+        () =>
+          Math.abs(
+            document.getElementById('in-action').getBoundingClientRect().top -
+              parseFloat(
+                getComputedStyle(document.documentElement).scrollPaddingTop,
+              ),
+          ) < 3,
+      );
+      const gap = await page.evaluate(
+        () =>
+          document.getElementById('in-action').getBoundingClientRect().top -
+          document.querySelector('.header').getBoundingClientRect().bottom,
+      );
+      assert.ok(gap >= 0 && gap <= 48, `Anchor gap ${gap} at ${width}`);
+    }
+  }
+  console.log(
+    'PASS application anchor aligns tabs below header on mobile and desktop from both pages',
+  );
   assert.deepEqual(errors, []);
   console.log('PASS genuine HTTP 404 and no browser runtime/hydration errors');
 } finally {

@@ -95,8 +95,40 @@ export async function handleInquiry(
     } | null;
     if (!response.ok || typeof result?.id !== 'string' || !result.id)
       throw new Error('delivery');
+    let confirmationSent = false;
+    try {
+      const confirmation = await deliver('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${env.RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
+          'Idempotency-Key': `inquiry-confirmation/${body.requestId}`,
+        },
+        signal: AbortSignal.timeout(3000),
+        body: JSON.stringify({
+          from: env.INQUIRY_FROM,
+          to: [fields.email.trim()],
+          subject: 'FormworkDesigner — ваша заявка получена',
+          text: 'Здравствуйте!\n\nВаша заявка в FormworkDesigner получена. В ближайшее время мы свяжемся с вами по указанным контактам. Повторно отправлять заявку не нужно.\n\nСпасибо за интерес к программе!',
+        }),
+      });
+      const acknowledgement = (await confirmation.json().catch(() => null)) as {
+        id?: unknown;
+      } | null;
+      confirmationSent =
+        confirmation.ok &&
+        typeof acknowledgement?.id === 'string' &&
+        Boolean(acknowledgement.id);
+    } catch {
+      // The owner's accepted enquiry remains valid even if the receipt fails.
+    }
+    if (!confirmationSent)
+      console.warn(
+        'Inquiry receipt email was not acknowledged by the provider.',
+      );
     return json(202, {
       accepted: true,
+      confirmationSent,
       message: 'Заявка передана. Спасибо за интерес!',
     });
   } catch {
