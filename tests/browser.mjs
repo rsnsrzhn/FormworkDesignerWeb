@@ -62,7 +62,7 @@ try {
   console.log('PASS styled first paint and bounded logo without JavaScript');
   const home = await page.goto(base);
   assert.equal(home.status(), 200);
-  await page.getByRole('heading', { name: /Расчёт опалубки/ }).waitFor();
+  await page.getByRole('heading', { name: /Расчёт и чертежи/ }).waitFor();
   assert.ok(
     await page.locator('meta[name="description"]').getAttribute('content'),
   );
@@ -82,7 +82,7 @@ try {
     await page
       .locator('body')
       .evaluate((el) => getComputedStyle(el).fontFamily),
-    /IBM Plex Sans/,
+    /Manrope/,
   );
   await page
     .getByRole('link', { name: 'Посмотреть приложение', exact: true })
@@ -247,6 +247,22 @@ try {
   assert.equal(
     await page.locator('meta[name=robots]').getAttribute('content'),
     'noindex, follow',
+  );
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto(base);
+  await page.evaluate(() => {
+    window.__siteDocumentMarker = true;
+  });
+  await page.locator('.header a[href="/purchase"]').click();
+  await page.waitForURL('**/purchase');
+  assert.equal(await page.evaluate(() => window.__siteDocumentMarker), true);
+  await page.waitForFunction(() => document.getAnimations().length > 0);
+  await page.goBack();
+  await page.waitForURL(base + '/');
+  await page.getByRole('heading', { name: /Расчёт и чертежи/ }).waitFor();
+  console.log(
+    'PASS navigation without document reload, entry animation and browser Back',
   );
   assert.deepEqual(errors, []);
   console.log('PASS genuine HTTP 404 and no browser runtime/hydration errors');

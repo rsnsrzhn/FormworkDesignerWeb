@@ -5,6 +5,9 @@ export type SiteConfig = {
   operatorName: string;
   operatorAddress: string;
   privacyEmail: string;
+  retentionPeriod?: string;
+  processors?: string;
+  transferDetails?: string;
   policyVersion: string;
   copyrightYear?: number;
 };

@@ -1,5 +1,5 @@
 import { build } from 'vite';
-import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, rm, readdir } from 'node:fs/promises';
 import { htmlPage, productionOrigin } from './html.ts';
 import { getSiteConfig } from '../server/config.ts';
 await build();
@@ -7,7 +7,18 @@ await build({
   build: { ssr: 'src/entry-server.tsx', outDir: '.server', emptyOutDir: true },
 });
 const { render, pages } = await import('../.server/entry-server.js');
-const template = await readFile('dist/index.html', 'utf8');
+const fonts = (await readdir('dist/assets')).filter((name) =>
+  /^manrope-(latin|cyrillic)-(400|500)-normal.*\.woff2$/.test(name),
+);
+const template = (await readFile('dist/index.html', 'utf8')).replace(
+  '<!--seo-->',
+  fonts
+    .map(
+      (name) =>
+        `<link rel="preload" href="/assets/${name}" as="font" type="font/woff2" crossorigin />`,
+    )
+    .join('\n') + '\n<!--seo-->',
+);
 for (const path of Object.keys(pages)) {
   const folder = path === '/' ? 'dist' : `dist${path}`;
   await mkdir(folder, { recursive: true });

@@ -76,25 +76,6 @@ export function Purchase() {
           </Link>
         </div>
       </section>
-      <section className="container purchase-start">
-        <h2>
-          Сначала — знакомство
-          <br />с программой.
-        </h2>
-        <div>
-          <p>
-            Запросите демоверсию и попробуйте рабочий сценарий. В демоверсии
-            недоступны сохранение и экспорт файлов.
-          </p>
-          <p>
-            После знакомства обсудим приобретение и ответим на вопросы об
-            использовании.
-          </p>
-          <Link className="text-link" href="/contact">
-            Запросить демоверсию <Icon name="arrow" size={18} />
-          </Link>
-        </div>
-      </section>
       <CTA />
     </>
   );

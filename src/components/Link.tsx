@@ -1,10 +1,10 @@
 import type { AnchorHTMLAttributes, MouseEvent } from 'react';
-
+import { navigate, routes } from '../lib/navigation';
 export function Link({
   onClick,
   ...props
 }: AnchorHTMLAttributes<HTMLAnchorElement>) {
-  function navigate(event: MouseEvent<HTMLAnchorElement>) {
+  function follow(event: MouseEvent<HTMLAnchorElement>) {
     onClick?.(event);
     const link = event.currentTarget;
     if (
@@ -21,25 +21,12 @@ export function Link({
     const url = new URL(link.href);
     if (
       url.origin !== location.origin ||
-      url.pathname === location.pathname ||
-      !['/', '/purchase', '/contact', '/privacy', '/consent'].includes(
-        url.pathname,
-      ) ||
-      matchMedia('(prefers-reduced-motion: reduce)').matches
+      !routes.includes(url.pathname) ||
+      (url.pathname === location.pathname && url.hash)
     )
       return;
-    // Modern browsers handle document transitions natively; fallback keeps ordinary navigation.
-    if ('onpageswap' in window) return;
-    const main = document.getElementById('main');
-    if (!main || typeof main.animate !== 'function') return;
     event.preventDefault();
-    const animation = main.animate([{ opacity: 1 }, { opacity: 0.5 }], {
-      duration: 100,
-      easing: 'ease-out',
-    });
-    void animation.finished
-      .catch(() => {})
-      .then(() => location.assign(url.href));
+    navigate(url);
   }
-  return <a {...props} onClick={navigate} />;
+  return <a {...props} onClick={follow} />;
 }

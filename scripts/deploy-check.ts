@@ -7,6 +7,9 @@ const required = [
   'OPERATOR_NAME',
   'OPERATOR_ADDRESS',
   'PRIVACY_EMAIL',
+  'DATA_RETENTION_PERIOD',
+  'DATA_PROCESSORS',
+  'DATA_TRANSFER_DETAILS',
 ];
 let failed = false;
 if (env.ACCEPT_INQUIRIES === 'true') {

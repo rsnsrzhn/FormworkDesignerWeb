@@ -17,7 +17,7 @@ export const pages: Record<string, { title: string; description: string }> = {
   '/privacy': {
     title: 'Политика конфиденциальности — FormworkDesigner',
     description:
-      'Информация об обработке контактных данных при обращении через сайт FormworkDesigner.',
+      'Политика в отношении обработки персональных данных при обращении через форму FormworkDesigner.',
   },
   '/consent': {
     title: 'Согласие на обработку данных — FormworkDesigner',

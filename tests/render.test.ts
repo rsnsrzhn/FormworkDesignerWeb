@@ -24,7 +24,7 @@ test('all routes render meaningful content without browser globals', () => {
         html,
         /Учебная схема|status-dot|scene-check|workflow-number/,
       );
-      assert.match(html, /PDF/);
+      assert.match(html, /ведомост/);
     }
     if (path === '/404') assert.match(html, /404/);
   }

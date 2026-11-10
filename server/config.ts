@@ -9,6 +9,9 @@ export function getSiteConfig(env: Environment = process.env) {
     operatorName: env.OPERATOR_NAME || '',
     operatorAddress: env.OPERATOR_ADDRESS || '',
     privacyEmail: env.PRIVACY_EMAIL || '',
+    retentionPeriod: env.DATA_RETENTION_PERIOD || '',
+    processors: env.DATA_PROCESSORS || '',
+    transferDetails: env.DATA_TRANSFER_DETAILS || '',
     policyVersion: env.POLICY_VERSION || '2026-11-09',
   };
 }

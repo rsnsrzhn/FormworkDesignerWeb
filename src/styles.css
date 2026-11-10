@@ -1,12 +1,12 @@
-@import '@fontsource/ibm-plex-sans/latin-400.css';
-@import '@fontsource/ibm-plex-sans/cyrillic-400.css';
-@import '@fontsource/ibm-plex-sans/latin-500.css';
-@import '@fontsource/ibm-plex-sans/cyrillic-500.css';
-@import '@fontsource/ibm-plex-sans/latin-600.css';
-@import '@fontsource/ibm-plex-sans/cyrillic-600.css';
+@import '@fontsource/manrope/latin-400.css';
+@import '@fontsource/manrope/cyrillic-400.css';
+@import '@fontsource/manrope/latin-500.css';
+@import '@fontsource/manrope/cyrillic-500.css';
+@import '@fontsource/manrope/latin-600.css';
+@import '@fontsource/manrope/cyrillic-600.css';
 
 :root {
-  font-family: 'IBM Plex Sans', Arial, sans-serif;
+  font-family: 'Manrope', Arial, sans-serif;
   color: #172d45;
   background: #fff;
   font-synthesis: none;
@@ -2015,5 +2015,139 @@ input {
   }
   .landing-questions details {
     padding-inline: 18px;
+  }
+}
+
+/* Architectural composition: quiet paper, precise rhythm, restrained rust accent. */
+:root {
+  --ink: #242827;
+  --muted: #58605b;
+  --blue: #9b421f;
+  --navy: #363e38;
+  --pale: #edeee7;
+  --border: #d6d9d0;
+  background: #f7f6f0;
+  color: var(--ink);
+}
+html {
+  scrollbar-gutter: stable;
+}
+body {
+  line-height: 1.65;
+}
+#main:focus {
+  outline: none;
+}
+.header {
+  background: #f7f6f0;
+}
+.engineering-heading {
+  grid-template-columns: 1.2fr 0.8fr;
+  align-items: start;
+  gap: 64px;
+}
+.engineering-heading h1 {
+  font-size: clamp(42px, 5.2vw, 76px);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1.09;
+}
+.engineering-heading p {
+  font-size: 18px;
+}
+.engineering-hero {
+  padding-top: 64px;
+}
+.hero-product {
+  box-shadow: none;
+  border: 1px solid #c8cec2;
+}
+.hero-product figcaption {
+  background: #e9ece3;
+  color: #414b41;
+}
+.workflow-section {
+  padding-block: 76px;
+}
+.workflow-intro {
+  grid-template-columns: 1.2fr 0.8fr;
+}
+.workflow-intro h2,
+.result-grid h2 {
+  font-size: clamp(32px, 3.4vw, 48px);
+}
+.product-tabs {
+  gap: 8px;
+  border: 0;
+}
+.product-tabs button,
+.product-tabs button:first-child {
+  border: 1px solid var(--border);
+  padding: 12px 22px;
+  background: transparent;
+}
+.product-tabs button[aria-pressed='true'] {
+  background: #353e36;
+  color: white;
+  border-color: #353e36;
+}
+.result-band,
+.purchase-band,
+.cta-band {
+  background: #e7eade;
+}
+.demo-section {
+  padding-block: 80px;
+}
+.button:hover,
+.button:focus-visible {
+  background: #783219;
+  border-color: #783219;
+  color: white;
+  box-shadow: none;
+}
+.form-field input {
+  background: #fafaf6;
+}
+.form-field input:focus {
+  border-color: var(--blue);
+}
+.text-link {
+  color: var(--blue);
+}
+.footer {
+  background: #eceee6;
+}
+h2,
+h3 {
+  letter-spacing: -0.035em;
+}
+@media (max-width: 850px) {
+  .engineering-heading,
+  .workflow-intro {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .engineering-heading h1 {
+    font-size: clamp(40px, 7vw, 64px);
+  }
+}
+@media (max-width: 600px) {
+  .engineering-heading h1 {
+    font-size: 40px;
+  }
+  .engineering-hero {
+    padding-top: 36px;
+  }
+  .workflow-section {
+    padding-block: 48px;
+  }
+  .product-tabs button,
+  .product-tabs button:first-child {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+  .demo-section {
+    padding-block: 50px;
   }
 }
