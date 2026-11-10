@@ -1,26 +1,13 @@
 /** Reports variable names and readiness only. Never print configuration values. */
 const env = process.env;
-const required = [
-  'RESEND_API_KEY',
-  'INQUIRY_FROM',
-  'INQUIRY_TO',
-  'OPERATOR_NAME',
-  'OPERATOR_ADDRESS',
-  'PRIVACY_EMAIL',
-  'DATA_RETENTION_PERIOD',
-  'DATA_PROCESSORS',
-  'DATA_TRANSFER_DETAILS',
-];
+const required = ['RESEND_API_KEY', 'INQUIRY_FROM', 'INQUIRY_TO'];
 let failed = false;
 if (env.ACCEPT_INQUIRIES === 'true') {
   const missing = required.filter((name) => !env[name]?.trim());
   if (missing.length) {
     console.error('Не заполнены: ' + missing.join(', '));
     failed = true;
-  } else
-    console.log(
-      'Почтовые переменные и данные оператора заполнены. Доставка письма не проверялась.',
-    );
+  } else console.log('Почтовая конфигурация заполнена.');
 } else
   console.log(
     'Приём заявок выключен. Сайт можно просматривать, форма не отправляет письма.',
