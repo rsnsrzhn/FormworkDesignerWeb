@@ -1,5 +1,5 @@
-import { validateInquiry, normalizePhone } from '../src/lib/validation.ts';
-import { getSiteConfig, type Environment } from './config.ts';
+import { validateInquiry, normalizePhone } from '../src/lib/validation.js';
+import { getSiteConfig, type Environment } from './config.js';
 const json = (status: number, body: unknown) =>
   Response.json(body, { status, headers: { 'Cache-Control': 'no-store' } });
 export async function handleInquiry(

@@ -1,2 +1,2 @@
-import { handleApi } from '../server/http.ts';
+import { handleApi } from '../server/http.js';
 export default handleApi;

@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { handleInquiry } from './inquiries.ts';
-import { getSiteConfig } from './config.ts';
-import { createRateLimiter } from './rate-limit.ts';
+import { handleInquiry } from './inquiries.js';
+import { getSiteConfig } from './config.js';
+import { createRateLimiter } from './rate-limit.js';
 const allowSubmission = createRateLimiter(5, 60_000);
 export type ParsedRequest = IncomingMessage & { body?: unknown };
 export async function handleApi(req: ParsedRequest, res: ServerResponse) {
