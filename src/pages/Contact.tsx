@@ -25,6 +25,8 @@ export function Contact({
   const [busy, setBusy] = useState(false);
   const [success, setSuccess] = useState(false);
   const requestId = useRef('');
+  const delivery = useRef<AbortController | null>(null);
+  useEffect(() => () => delivery.current?.abort(), []);
   const honeypot = useRef<HTMLInputElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -52,12 +54,17 @@ export function Contact({
       return;
     }
     setBusy(true);
+    const controller = new AbortController();
+    delivery.current = controller;
     const result = await sendInquiry(
       fields,
       requestId.current,
       config.policyVersion,
       honeypot.current?.value || '',
+      controller.signal,
     );
+    if (controller.signal.aborted) return;
+    delivery.current = null;
     setBusy(false);
     if (result.errors) {
       setErrors(result.errors);

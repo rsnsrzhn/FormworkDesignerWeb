@@ -21,6 +21,7 @@ export async function sendInquiry(
   requestId: string,
   policyVersion: string,
   website: string,
+  signal?: AbortSignal,
 ): Promise<{ errors?: FieldErrors; message?: string }> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 15000);
@@ -29,7 +30,9 @@ export async function sendInquiry(
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...fields, requestId, policyVersion, website }),
-      signal: controller.signal,
+      signal: signal
+        ? AbortSignal.any([signal, controller.signal])
+        : controller.signal,
     });
     const data = await response.json().catch(() => ({}));
     if (response.status === 202 && data.accepted === true) return {};

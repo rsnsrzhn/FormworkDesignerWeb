@@ -21,3 +21,26 @@ test('only an explicit accepted acknowledgement completes the enquiry', async (t
   );
   assert.deepEqual(await sendInquiry(fields, 'id', '2026-11-09', ''), {});
 });
+
+test('leaving the form aborts the pending client request', async (t) => {
+  const controller = new AbortController();
+  t.mock.method(globalThis, 'fetch', async (_url, options) => {
+    assert.ok(options?.signal);
+    return new Promise<Response>((_resolve, reject) => {
+      options!.signal!.addEventListener(
+        'abort',
+        () => reject(new DOMException('Aborted', 'AbortError')),
+        { once: true },
+      );
+    });
+  });
+  const pending = sendInquiry(
+    fields,
+    'id',
+    '2026-11-09',
+    '',
+    controller.signal,
+  );
+  controller.abort();
+  assert.ok((await pending).message);
+});
