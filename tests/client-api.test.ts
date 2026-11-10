@@ -24,16 +24,20 @@ test('only an explicit accepted acknowledgement completes the enquiry', async (t
 
 test('leaving the form aborts the pending client request', async (t) => {
   const controller = new AbortController();
-  t.mock.method(globalThis, 'fetch', async (_url, options) => {
-    assert.ok(options?.signal);
-    return new Promise<Response>((_resolve, reject) => {
-      options!.signal!.addEventListener(
-        'abort',
-        () => reject(new DOMException('Aborted', 'AbortError')),
-        { once: true },
-      );
-    });
-  });
+  t.mock.method(
+    globalThis,
+    'fetch',
+    async (_url: string | URL | Request, options?: RequestInit) => {
+      assert.ok(options?.signal);
+      return new Promise<Response>((_resolve, reject) => {
+        options!.signal!.addEventListener(
+          'abort',
+          () => reject(new DOMException('Aborted', 'AbortError')),
+          { once: true },
+        );
+      });
+    },
+  );
   const pending = sendInquiry(
     fields,
     'id',
