@@ -19,7 +19,7 @@ test('all routes render meaningful content without browser globals', () => {
       assert.match(html, /Посмотреть приложение/);
       assert.doesNotMatch(html, /90%/);
       assert.match(html, /демоверси/i);
-      assert.match(html, /экспорт файлов/);
+      assert.doesNotMatch(html, /В демоверсии недоступны/);
       assert.doesNotMatch(
         html,
         /Учебная схема|status-dot|scene-check|workflow-number/,
@@ -45,5 +45,5 @@ test('first HTML paint has stylesheet and a bounded logo before JavaScript', asy
     /<link[^>]*rel="stylesheet"[^>]*href="\/src\/styles.css"/,
   );
   const html = renderToString(createElement(Brand));
-  assert.match(html, /<svg[^>]*width="32"[^>]*height="32"/);
+  assert.match(html, /<img[^>]*width="32"[^>]*height="32"/);
 });

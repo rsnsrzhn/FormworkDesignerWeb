@@ -3,10 +3,12 @@ export function Media({
   name,
   title,
   eager = false,
+  autoPlay = false,
 }: {
   name: string;
   title: string;
   eager?: boolean;
+  autoPlay?: boolean;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [near, setNear] = useState(eager);
@@ -16,14 +18,30 @@ export function Media({
     if (!element) return;
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) setNear(true);
-        else element.pause();
+        if (entries[0].isIntersecting) {
+          setNear(true);
+          if (autoPlay && element.currentSrc)
+            void element.play().catch(() => {});
+        } else element.pause();
       },
-      { rootMargin: '200px' },
+      {
+        rootMargin: autoPlay ? '0px' : '200px',
+        threshold: autoPlay ? 0.15 : 0,
+      },
     );
     observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
+    return () => {
+      observer.disconnect();
+      element.pause();
+    };
+  }, [autoPlay]);
+  useEffect(() => {
+    const element = ref.current;
+    if (element && near && autoPlay) {
+      element.muted = true;
+      void element.play().catch(() => {});
+    }
+  }, [near, autoPlay]);
   return (
     <div className="media-window">
       {missing ? (
@@ -38,6 +56,7 @@ export function Media({
           src={near ? `/media/${name}.mp4` : undefined}
           poster={`/media/${name}.jpg`}
           controls
+          autoPlay={autoPlay}
           muted
           loop
           playsInline

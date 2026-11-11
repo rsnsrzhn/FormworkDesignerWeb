@@ -57,9 +57,6 @@ export function Home() {
                 Посмотреть приложение <span aria-hidden="true">↓</span>
               </a>
             </div>
-            <p className="demo-note">
-              В демоверсии недоступны сохранение и экспорт файлов.
-            </p>
           </div>
         </div>
         <figure className="hero-product">
@@ -82,7 +79,6 @@ export function Home() {
             От контура
             <br />к раскладке щитов.
           </h2>
-          <p>Выберите этап и посмотрите настоящую запись программы.</p>
         </div>
         <div
           className="product-tabs"
@@ -103,6 +99,7 @@ export function Home() {
         </div>
         <figure className="product-preview" id="product-preview">
           <Media
+            autoPlay
             key={demonstrations[selected].name}
             name={demonstrations[selected].name}
             title={demonstrations[selected].title}
@@ -157,10 +154,6 @@ export function Home() {
         </h2>
         <div>
           <p>Проверьте рабочий процесс в демоверсии.</p>
-          <p>
-            В демоверсии недоступны сохранение проекта и экспорт файлов. Условия
-            приобретения и возможные доработки обсуждаем лично.
-          </p>
           <Link className="button" href="/contact">
             Запросить демоверсию
           </Link>

@@ -71,7 +71,8 @@ try {
     path: 'test-results/home-desktop.png',
     fullPage: true,
   });
-  console.log('PASS rendered homepage and metadata');
+  await page.locator('.header .brand-mark').evaluate((image) => image.decode());
+  console.log('PASS rendered homepage, new logo and metadata');
   for (const name of [
     '01-primery',
     '02-razbivka',
@@ -132,6 +133,39 @@ try {
   assert.match(
     await page.locator('#product-preview video').getAttribute('poster'),
     /03-vysota/,
+  );
+  for (const title of [
+    'Контур',
+    'Раскладка',
+    'Высота',
+    'Документы',
+    'Примеры',
+  ]) {
+    await selection.getByRole('button', { name: title, exact: true }).click();
+    await page.waitForFunction(() => {
+      const v = document.querySelector('#product-preview video');
+      return v && v.muted && !v.paused && v.currentTime > 0;
+    });
+    assert.equal(
+      await page.locator('#product-preview video').getAttribute('autoplay'),
+      '',
+    );
+  }
+  assert.ok(
+    await page
+      .locator('a[href="mailto:info.formworkss@gmail.com"]')
+      .isVisible(),
+  );
+  assert.equal(
+    await page
+      .getByText('Выберите этап и посмотрите настоящую запись программы.', {
+        exact: true,
+      })
+      .count(),
+    0,
+  );
+  console.log(
+    'PASS all selected videos autoplay muted and footer email is available',
   );
   await page
     .locator('.engineering-hero')
@@ -209,7 +243,7 @@ try {
   console.log('PASS simulated provider failure and success UI (no email sent)');
   await page.unroute('**/api/site-config');
   await page.unroute('**/api/inquiries');
-  for (const width of [360, 390, 768, 1024, 1440, 1920]) {
+  for (const width of [320, 360, 390, 768, 1024, 1100, 1280, 1440, 1920]) {
     await page.setViewportSize({ width, height: 900 });
     for (const path of ['/', '/purchase', '/contact', '/privacy', '/consent']) {
       const response = await page.goto(base + path);
@@ -223,7 +257,7 @@ try {
       );
     }
   }
-  console.log('PASS five routes at 360/390/768/1024/1440px');
+  console.log('PASS five routes at 320/360/390/768/1024/1100/1280/1440/1920px');
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(base);
   await page.screenshot({

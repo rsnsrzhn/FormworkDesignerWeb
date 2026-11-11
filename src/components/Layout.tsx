@@ -4,16 +4,13 @@ import { Icon } from './Icon';
 export function Brand() {
   return (
     <Link className="brand" href="/" aria-label="FormworkDesigner — главная">
-      <svg
+      <img
         className="brand-mark"
+        src="/brand/formwork-small.svg"
         width="32"
         height="32"
-        viewBox="0 0 40 40"
-        aria-hidden="true"
-      >
-        <rect width="40" height="40" rx="9" fill="#12263c" />
-        <path d="M12 30V10h19v5H18v4h10v5H18v6z" fill="#80c1f3" />
-      </svg>
+        alt=""
+      />
       <span>
         Formwork<span className="brand-light">Designer</span>
       </span>
@@ -91,11 +88,12 @@ export function Footer({ year = 2026 }: { year?: number }) {
             <Link href="/purchase">Сотрудничество</Link>
             <Link href="/contact">Связаться с нами</Link>
           </div>
-          <div className="footer-location">
-            Для специалистов
-            <br />
-            России и Беларуси
-          </div>
+          <address className="footer-location footer-contact">
+            <span>Связаться с нами</span>
+            <a href="mailto:info.formworkss@gmail.com">
+              info.formworkss@gmail.com
+            </a>
+          </address>
         </div>
         <div className="footer-bottom">
           <span>© {year} FormworkDesigner</span>

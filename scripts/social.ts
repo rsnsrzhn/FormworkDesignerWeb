@@ -1,14 +1,15 @@
 import { chromium } from 'playwright';
-import { readFile, copyFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
-const directory = 'node_modules/@fontsource/ibm-plex-sans';
+const directory = 'node_modules/@fontsource/manrope';
 const cyrillic = await readFile(
-  `${directory}/files/ibm-plex-sans-cyrillic-500-normal.woff2`,
+  `${directory}/files/manrope-cyrillic-500-normal.woff2`,
 );
 const latin = await readFile(
-  `${directory}/files/ibm-plex-sans-latin-500-normal.woff2`,
+  `${directory}/files/manrope-latin-500-normal.woff2`,
 );
-const drawing = await readFile('public/drawings/house-plan.svg', 'utf8');
+const logo = await readFile('public/brand/formwork.svg', 'utf8');
+const product = await readFile('public/media/02-razbivka.jpg');
 const browser = await chromium.launch({
   headless: true,
   executablePath:
@@ -24,13 +25,15 @@ try {
     deviceScaleFactor: 1,
   });
   await page.setContent(`<html lang="ru"><head><meta charset="utf-8"><style>
-    @font-face{font-family:Plex;src:url(data:font/woff2;base64,${cyrillic.toString('base64')});font-weight:500;unicode-range:U+0400-045F}
-    @font-face{font-family:Plex;src:url(data:font/woff2;base64,${latin.toString('base64')});font-weight:500}
-    *{box-sizing:border-box}body{margin:0;width:1200px;height:630px;background:#f5f8fc;color:#172d45;font-family:Plex,Arial,sans-serif;overflow:hidden}.drawing{position:absolute;inset:0 0 0 340px;opacity:.65}.drawing svg{width:1060px;height:730px;position:absolute;top:-35px;left:0}.wash{position:absolute;inset:0;background:linear-gradient(90deg,#fff 0%,#fffffff5 36%,#ffffff00 92%)}main{position:relative;padding:65px}.brand{font-size:23px;letter-spacing:-.8px}h1{font-size:82px;line-height:1.04;letter-spacing:-4px;font-weight:500;margin:90px 0 25px}h1 span{color:#2465d0}p{font-size:20px;color:#5e7187;line-height:1.5;max-width:450px}.footer{position:absolute;bottom:45px;left:65px;color:#5e7187;font-size:14px}
-  </style></head><body><div class="drawing">${drawing}</div><div class="wash"></div><main><div class="brand">FormworkDesigner</div><h1>Меньше рутины.<br/><span>Больше проекта.</span></h1><p>Контур. Раскладка щитов.<br/>Комплект документов.</p></main><div class="footer">Приложение для проектирования опалубки</div></body></html>`);
+  @font-face{font-family:Manrope;src:url(data:font/woff2;base64,${cyrillic.toString('base64')});font-weight:500;unicode-range:U+0400-052F}
+  @font-face{font-family:Manrope;src:url(data:font/woff2;base64,${latin.toString('base64')});font-weight:500;unicode-range:U+0000-00FF}
+  *{box-sizing:border-box}body{margin:0;padding:52px;background:#f7f6f0;color:#242827;font-family:Manrope,Arial,sans-serif}header{display:flex;align-items:center;gap:20px;font-size:28px}header svg{width:72px;height:72px}main{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-top:62px}h1{font-size:54px;line-height:1.15;letter-spacing:-2px;font-weight:500;margin:0}p{font-size:21px;line-height:1.6;color:#58605b;margin-top:26px}img{width:100%;height:auto;border:1px solid #c8cec2}
+  </style></head><body><header>${logo}<span>FormworkDesigner</span></header><main><div><h1>Расчёт и чертежи<br>опалубки.</h1><p>Контур, раскладка щитов<br>и ведомость элементов.</p></div><img src="data:image/jpeg;base64,${product.toString('base64')}" alt="Интерфейс FormworkDesigner"></main></body></html>`);
   await page.evaluate(() => document.fonts.ready);
+  await page
+    .locator('img')
+    .evaluate((image: HTMLImageElement) => image.decode());
   await page.screenshot({ path: 'public/social-preview.png' });
-  await copyFile(`${directory}/LICENSE`, 'public/font-license.txt');
   console.log('Generated public/social-preview.png (1200×630)');
 } finally {
   await browser.close();
